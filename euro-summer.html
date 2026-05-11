@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Euro Summer w/ Bae</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=DM+Sans:opsz,wght@9..40,300..700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f4ecdc;
+    --paper-2: #ede2cb;
+    --paper-3: #e3d4b3;
+    --ink: #1d1611;
+    --ink-soft: #4a3d31;
+    --ink-faded: #8a7860;
+    --terracotta: #b8431e;
+    --terracotta-dark: #8e2f12;
+    --olive: #5e6b3e;
+    --sea: #3a6679;
+    --sun: #c08621;
+    --rule: #c9b896;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(184, 67, 30, 0.04) 0, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(58, 102, 121, 0.04) 0, transparent 40%),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.1, 0 0 0 0 0.08, 0 0 0 0 0.06, 0 0 0 0.04 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+    min-height: 100vh;
+  }
+
+  .wrap { max-width: 880px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  /* HERO */
+  .hero { margin-bottom: 50px; }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--ink-faded); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .hero-eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+  h1 {
+    font-family: 'Fraunces', serif; font-weight: 400;
+    font-size: clamp(48px, 9vw, 92px);
+    line-height: 0.95; letter-spacing: -0.02em;
+    margin: 0 0 8px; color: var(--ink);
+    font-variation-settings: "opsz" 144, "SOFT" 50;
+  }
+  h1 em { font-style: italic; color: var(--terracotta); font-weight: 300; }
+  .hero-dates {
+    font-family: 'Fraunces', serif; font-size: 22px;
+    font-style: italic; color: var(--ink-soft); margin-bottom: 28px;
+  }
+  .timeline {
+    display: flex; flex-wrap: wrap;
+    margin-top: 24px;
+    border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+    padding: 16px 0;
+  }
+  .stop {
+    flex: 1 1 auto; min-width: 90px;
+    padding: 4px 12px;
+    border-right: 1px dashed var(--rule);
+    text-decoration: none; color: inherit;
+    transition: background 0.2s; cursor: pointer;
+  }
+  .stop:last-child { border-right: none; }
+  .stop:hover { background: rgba(184, 67, 30, 0.06); }
+  .stop-num { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink-faded); letter-spacing: 0.1em; }
+  .stop-name { font-family: 'Fraunces', serif; font-size: 17px; font-weight: 500; margin-top: 2px; }
+  .stop-dates { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--terracotta); margin-top: 2px; }
+
+  /* SECTION HEADERS */
+  .section-head {
+    margin-top: 90px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--ink);
+    display: flex; align-items: baseline; gap: 16px;
+  }
+  .section-head h2 {
+    font-family: 'Fraunces', serif; font-weight: 400; font-style: italic;
+    font-size: clamp(32px, 6vw, 44px); margin: 0; letter-spacing: -0.01em;
+  }
+  .section-head .section-sub {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--ink-faded);
+  }
+
+  /* BEFORE YOU LEAVE — bookings */
+  .preflight { margin-top: 30px; }
+  .tiers {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px;
+    margin-top: 28px;
+  }
+  @media (max-width: 760px) { .tiers { grid-template-columns: 1fr; } }
+  .tier-col h3 {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    margin: 0 0 6px; display: flex; align-items: center; gap: 8px;
+  }
+  .tier-col h3::before {
+    content: ''; width: 10px; height: 10px; border-radius: 50%;
+  }
+  .tier-col.urgent h3 { color: var(--terracotta); }
+  .tier-col.urgent h3::before { background: var(--terracotta); }
+  .tier-col.soon h3 { color: var(--sun); }
+  .tier-col.soon h3::before { background: var(--sun); }
+  .tier-col.later h3 { color: var(--olive); }
+  .tier-col.later h3::before { background: var(--olive); border-radius: 0; transform: rotate(45deg); }
+  .tier-col .tier-when {
+    font-family: 'Fraunces', serif; font-style: italic; font-size: 13px;
+    color: var(--ink-faded); margin-bottom: 14px; display: block;
+  }
+  .booking {
+    display: flex; gap: 10px; padding: 9px 0;
+    border-bottom: 1px dotted var(--rule); cursor: pointer;
+    align-items: flex-start;
+  }
+  .booking:last-child { border-bottom: none; }
+  .booking .box {
+    flex-shrink: 0; width: 14px; height: 14px;
+    border: 1.5px solid var(--ink-soft); margin-top: 4px;
+    border-radius: 2px; transition: all 0.15s; position: relative;
+  }
+  .booking.done .box { background: var(--ink); border-color: var(--ink); }
+  .booking.done .box::after {
+    content: '✓'; color: var(--paper); font-size: 11px;
+    position: absolute; top: -1px; left: 1px; font-weight: bold;
+  }
+  .booking .b-text { flex: 1; }
+  .booking .b-what {
+    font-size: 14px; color: var(--ink); line-height: 1.35; font-weight: 500;
+  }
+  .booking .b-why {
+    font-size: 12px; color: var(--ink-faded);
+    font-family: 'Fraunces', serif; font-style: italic;
+    margin-top: 2px; line-height: 1.4;
+  }
+  .booking.done .b-what { text-decoration: line-through; color: var(--ink-faded); }
+  .booking.done .b-why { opacity: 0.5; }
+
+  /* CITY SECTION */
+  .city { margin-top: 70px; scroll-margin-top: 20px; }
+  .city-header {
+    display: grid; grid-template-columns: auto 1fr auto; gap: 20px;
+    align-items: end; padding-bottom: 14px;
+    border-bottom: 2px solid var(--ink); margin-bottom: 24px;
+  }
+  .city-num {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300;
+    font-size: 64px; line-height: 1; color: var(--terracotta); letter-spacing: -0.03em;
+  }
+  .city-name {
+    font-family: 'Fraunces', serif; font-size: 42px; font-weight: 500;
+    line-height: 1; letter-spacing: -0.02em; margin: 0 0 6px;
+  }
+  .city-sub {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.15em; color: var(--ink-faded);
+  }
+  .city-dates {
+    text-align: right; font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 18px; color: var(--ink-soft); white-space: nowrap;
+  }
+  .city-meta {
+    font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-faded);
+    margin-bottom: 16px; padding: 10px 14px;
+    background: var(--paper-2); border-left: 3px solid var(--sun);
+  }
+  .city-meta strong { color: var(--ink-soft); font-weight: 500; margin-right: 6px; }
+  .city-meta a {
+    color: var(--terracotta); text-decoration: none;
+    border-bottom: 1px dotted var(--terracotta);
+  }
+  .city-meta a:hover { color: var(--terracotta-dark); }
+
+  /* GETTING THERE */
+  .getting-there {
+    margin-bottom: 28px;
+    padding: 14px 16px;
+    background: linear-gradient(to right, rgba(58, 102, 121, 0.08), transparent);
+    border-left: 3px solid var(--sea);
+    font-size: 14px; line-height: 1.5;
+  }
+  .getting-there .gt-label {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--sea); margin-bottom: 4px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .getting-there .gt-label::before { content: '→'; font-size: 14px; }
+  .getting-there .gt-body { color: var(--ink-soft); }
+
+  /* DAY PLANS */
+  .day-plans { margin-bottom: 36px; }
+  .day-plans-label {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--ink-faded); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .day-plans-label::before { content: '✺'; color: var(--terracotta); font-size: 13px; }
+  .day-plans-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+  .day-plans-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  }
+  @media (max-width: 640px) { .day-plans-grid { grid-template-columns: 1fr; } }
+  .day-card {
+    background: var(--paper-2);
+    padding: 14px 16px;
+    border-top: 2px solid var(--ink);
+    position: relative;
+  }
+  .day-card .dc-title {
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 18px; color: var(--ink); margin-bottom: 4px;
+    line-height: 1.15;
+  }
+  .day-card .dc-shape {
+    font-size: 13.5px; color: var(--ink-soft); line-height: 1.5;
+  }
+
+  /* LISTS */
+  .lists { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .lists > .list-block:nth-child(3) { grid-column: 1 / -1; }
+  @media (max-width: 640px) {
+    .lists { grid-template-columns: 1fr; gap: 28px; }
+    .city-header { grid-template-columns: auto 1fr; }
+    .city-dates { grid-column: 1 / -1; text-align: left; }
+    .city-num { font-size: 48px; }
+    .city-name { font-size: 32px; }
+  }
+
+  .list-block h3 {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    font-size: 24px; margin: 0 0 14px; color: var(--ink);
+    display: flex; align-items: baseline; gap: 10px;
+  }
+  .list-block h3 .count {
+    font-family: 'DM Mono', monospace; font-style: normal;
+    font-size: 10px; color: var(--ink-faded); letter-spacing: 0.1em;
+  }
+  .list-block.do h3::before { content: '◆'; color: var(--terracotta); font-size: 14px; }
+  .list-block.eat h3::before { content: '●'; color: var(--olive); font-size: 14px; }
+  .list-block.tips h3::before { content: '◇'; color: var(--sea); font-size: 14px; }
+
+  .list { list-style: none; margin: 0; padding: 0; }
+  .item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 7px 0; border-bottom: 1px dotted var(--rule);
+    cursor: pointer; transition: opacity 0.2s;
+  }
+  .item:last-child { border-bottom: none; }
+  .item .box {
+    flex-shrink: 0; width: 14px; height: 14px;
+    border: 1.5px solid var(--ink-soft); margin-top: 5px;
+    border-radius: 2px; transition: all 0.15s; position: relative;
+  }
+  .item.done .box { background: var(--ink); border-color: var(--ink); }
+  .item.done .box::after {
+    content: '✓'; color: var(--paper); font-size: 11px;
+    position: absolute; top: -1px; left: 1px; font-weight: bold;
+  }
+  .item .text { flex: 1; font-size: 15px; color: var(--ink); line-height: 1.45; }
+  .item.done .text {
+    text-decoration: line-through; text-decoration-color: var(--ink-faded);
+    color: var(--ink-faded);
+  }
+  .item .del {
+    opacity: 0; background: none; border: none; color: var(--ink-faded);
+    cursor: pointer; font-size: 14px; padding: 0 4px;
+    transition: opacity 0.2s, color 0.2s;
+  }
+  .item:hover .del { opacity: 0.6; }
+  .item .del:hover { color: var(--terracotta); opacity: 1; }
+
+  .add-input {
+    width: 100%; background: transparent; border: none;
+    border-bottom: 1px dashed var(--rule);
+    padding: 8px 0; margin-top: 6px;
+    font-family: 'DM Sans', sans-serif; font-size: 14px;
+    color: var(--ink); outline: none; font-style: italic;
+  }
+  .add-input::placeholder { color: var(--ink-faded); opacity: 0.7; }
+  .add-input:focus { border-bottom-color: var(--terracotta); font-style: normal; }
+
+  /* TRAVEL TO BOOK */
+  .travel-list { margin-top: 28px; }
+  .travel-row {
+    display: grid; grid-template-columns: auto 1fr auto;
+    gap: 16px; padding: 14px 0;
+    border-bottom: 1px dotted var(--rule);
+    cursor: pointer; align-items: center;
+  }
+  .travel-row:last-child { border-bottom: none; }
+  .travel-row .box {
+    flex-shrink: 0; width: 14px; height: 14px;
+    border: 1.5px solid var(--ink-soft);
+    border-radius: 2px; transition: all 0.15s; position: relative;
+  }
+  .travel-row.done .box { background: var(--ink); border-color: var(--ink); }
+  .travel-row.done .box::after {
+    content: '✓'; color: var(--paper); font-size: 11px;
+    position: absolute; top: -1px; left: 1px; font-weight: bold;
+  }
+  .travel-row .tr-route {
+    font-family: 'Fraunces', serif; font-size: 18px; color: var(--ink);
+    font-weight: 500;
+  }
+  .travel-row .tr-meta {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    color: var(--ink-faded); margin-top: 3px; letter-spacing: 0.04em;
+  }
+  .travel-row .tr-date {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    color: var(--terracotta); text-align: right;
+    letter-spacing: 0.05em; white-space: nowrap;
+  }
+  .travel-row.done .tr-route {
+    text-decoration: line-through; color: var(--ink-faded);
+  }
+  .travel-row.done .tr-meta, .travel-row.done .tr-date { opacity: 0.6; }
+
+  /* LOGISTICS */
+  .log-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 28px; }
+  @media (max-width: 640px) { .log-grid { grid-template-columns: 1fr; } }
+  .log-card { background: var(--paper-2); padding: 20px; border-left: 3px solid var(--sea); }
+  .log-card h4 {
+    font-family: 'DM Mono', monospace; text-transform: uppercase;
+    letter-spacing: 0.15em; font-size: 11px; color: var(--ink-faded);
+    margin: 0 0 14px; font-weight: 500;
+  }
+  .log-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 6px 0; border-bottom: 1px dotted var(--rule); font-size: 14px;
+  }
+  .log-row:last-child { border-bottom: none; }
+  .log-row .lbl { color: var(--ink-soft); }
+  .log-row .val { font-family: 'DM Mono', monospace; color: var(--ink); }
+  .log-row.unpaid .val { color: var(--terracotta); }
+  .log-row.paid .val::after { content: ' ✓'; color: var(--olive); }
+  .log-total {
+    font-family: 'Fraunces', serif; font-size: 28px; font-style: italic;
+    margin-top: 16px; padding-top: 14px; border-top: 2px solid var(--ink);
+    display: flex; justify-content: space-between;
+  }
+  .log-total .val { font-family: 'DM Mono', monospace; font-style: normal; }
+  .flight-row { padding: 10px 0; border-bottom: 1px dotted var(--rule); }
+  .flight-row:last-child { border-bottom: none; }
+  .flight-route { font-family: 'Fraunces', serif; font-size: 16px; color: var(--ink); }
+  .flight-meta {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    color: var(--ink-faded); margin-top: 2px;
+  }
+
+  /* LAY OF THE LAND */
+  .land-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 22px;
+    margin-top: 28px;
+  }
+  @media (max-width: 640px) { .land-grid { grid-template-columns: 1fr; } }
+  .land-card {
+    padding: 18px 20px;
+    background: var(--paper-2);
+    border-top: 3px solid var(--olive);
+  }
+  .land-card.it { border-color: var(--terracotta); }
+  .land-card.es { border-color: var(--sun); }
+  .land-card.fr { border-color: var(--sea); }
+  .land-card.me { border-color: var(--olive); }
+  .land-card h4 {
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 22px; margin: 0 0 10px;
+    color: var(--ink);
+  }
+  .land-card ul { margin: 0; padding: 0; list-style: none; }
+  .land-card li {
+    font-size: 13.5px; color: var(--ink-soft);
+    padding: 4px 0; line-height: 1.5;
+    padding-left: 14px; position: relative;
+  }
+  .land-card li::before {
+    content: '·'; position: absolute; left: 4px;
+    color: var(--ink-faded); font-weight: bold;
+  }
+
+  /* FOOTER */
+  footer {
+    margin-top: 80px; text-align: center;
+    font-family: 'Fraunces', serif; font-style: italic;
+    color: var(--ink-faded); font-size: 14px;
+  }
+  footer::before {
+    content: '✶  ✶  ✶'; display: block; color: var(--rule);
+    margin-bottom: 16px; letter-spacing: 1em;
+  }
+
+  .reset-btn {
+    margin-top: 40px; background: none;
+    border: 1px solid var(--rule); color: var(--ink-faded);
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.1em; padding: 6px 12px;
+    cursor: pointer; text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  .reset-btn:hover { border-color: var(--terracotta); color: var(--terracotta); }
+
+  .loading {
+    text-align: center; padding: 60px;
+    color: var(--ink-faded); font-style: italic;
+    font-family: 'Fraunces', serif;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">11 Jun — 6 Jul 2026 · 25 days · 8 stops</div>
+    <h1>Euro Summer<br><em>w/ bae</em></h1>
+    <div class="hero-dates">Sydney to Rome and back the long way</div>
+    <nav class="timeline" id="timeline"></nav>
+  </div>
+
+  <!-- BEFORE YOU LEAVE -->
+  <section class="preflight">
+    <div class="section-head">
+      <h2>before you leave</h2>
+      <span class="section-sub">book the buggers</span>
+    </div>
+    <div class="tiers" id="tiers"></div>
+  </section>
+
+  <!-- CITIES -->
+  <main id="cities">
+    <div class="loading">setting up the trip…</div>
+  </main>
+
+  <!-- TRAVEL TO BOOK -->
+  <section>
+    <div class="section-head">
+      <h2>travel still to sort</h2>
+      <span class="section-sub">between the dots</span>
+    </div>
+    <div class="travel-list" id="travel-list"></div>
+  </section>
+
+  <!-- LOGISTICS -->
+  <section>
+    <div class="section-head">
+      <h2>flights &amp; money</h2>
+      <span class="section-sub">paid · pending</span>
+    </div>
+    <div class="log-grid">
+      <div class="log-card" style="border-color: var(--sea);">
+        <h4>Flights booked</h4>
+        <div class="flight-row">
+          <div class="flight-route">SYD → FCO <span style="color: var(--ink-faded); font-size: 13px;">(via IST)</span></div>
+          <div class="flight-meta">11 Jun · 21:05 → 14 Jun 14:05 · TK175/TK1865</div>
+        </div>
+        <div class="flight-row">
+          <div class="flight-route">CDG → TGD <span style="color: var(--ink-faded); font-size: 13px;">(Podgorica)</span></div>
+          <div class="flight-meta">29 Jun · 07:55 → 10:20 · TO4420</div>
+        </div>
+        <div class="flight-row">
+          <div class="flight-route">TGD → FCO</div>
+          <div class="flight-meta">4 Jul · 11:15 → 12:45 · W67651</div>
+        </div>
+        <div class="flight-row">
+          <div class="flight-route">FCO → SYD <span style="color: var(--ink-faded); font-size: 13px;">(via IST)</span></div>
+          <div class="flight-meta">6 Jul · 10:45 → 19:10 · TK1862/TK174</div>
+        </div>
+      </div>
+
+      <div class="log-card" style="border-color: var(--terracotta);">
+        <h4>Money tally</h4>
+        <div class="log-row paid"><span class="lbl">Flights</span><span class="val">$2,776.56</span></div>
+        <div class="log-row unpaid"><span class="lbl">Rome accom</span><span class="val">$860.26</span></div>
+        <div class="log-row unpaid"><span class="lbl">Rome city tax</span><span class="val">$49</span></div>
+        <div class="log-row paid"><span class="lbl">Barcelona accom</span><span class="val">$1,105.20</span></div>
+        <div class="log-row paid"><span class="lbl">Montenegro accom</span><span class="val">$1,119.79</span></div>
+        <div class="log-row paid"><span class="lbl">PAR → MON flight</span><span class="val">$347.53</span></div>
+        <div class="log-row paid"><span class="lbl">MON → ROM flight</span><span class="val">$188.89</span></div>
+        <div class="log-total"><span>Total</span><span class="val">$6,447</span></div>
+        <div style="font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-faded); margin-top: 8px; text-align: right;">≈ $3,224 each · still owing: Sicily, Cassis, Paris</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LAY OF THE LAND -->
+  <section>
+    <div class="section-head">
+      <h2>lay of the land</h2>
+      <span class="section-sub">small things worth knowing</span>
+    </div>
+    <div class="land-grid">
+      <div class="land-card it">
+        <h4>Italy</h4>
+        <ul>
+          <li>Many shops shut Sun + Mon morning. Riposo 1—4pm in smaller towns.</li>
+          <li><em>Coperto</em> on every bill — small cover charge, normal.</li>
+          <li>Tipping not expected. Round up if you want.</li>
+          <li>Rome has free public fountains (<em>nasoni</em>) — drinkable, fill your bottle.</li>
+          <li>Lunch ~1pm, dinner from 7:30pm. Aperitivo 6—8pm.</li>
+        </ul>
+      </div>
+      <div class="land-card es">
+        <h4>Spain</h4>
+        <ul>
+          <li>Dinner is LATE — 9pm earliest, 10pm normal. Lunch is the big meal.</li>
+          <li>Tapas: order a few, share, move on to the next bar.</li>
+          <li>Card almost everywhere; cash for tiny stalls + Barcelona city tax.</li>
+          <li>Sunday most shops closed except in tourist drags.</li>
+        </ul>
+      </div>
+      <div class="land-card fr">
+        <h4>France</h4>
+        <ul>
+          <li>Lots closed Sun + sometimes Mon. Bakeries close one day a week (varies).</li>
+          <li>Tipping not expected, service compris is included.</li>
+          <li>Say <em>bonjour</em> when entering shops — actually matters.</li>
+          <li>Paris in late June: long daylight, sunset ~9:55pm. Plan late.</li>
+        </ul>
+      </div>
+      <div class="land-card me">
+        <h4>Montenegro</h4>
+        <ul>
+          <li>Uses EUR (not in EU but adopted it).</li>
+          <li>Cash useful — family konobas often card-shy.</li>
+          <li>Bay roads tight + winding. Add buffer to travel times.</li>
+          <li>Fortress hike: go at sunrise or after 5pm. Midday is brutal.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <button class="reset-btn" onclick="resetAll()">reset everything</button>
+
+  <footer>buon viaggio · bon voyage · srećan put</footer>
+
+</div>
+
+<script>
+// =========================================================================
+// DATA
+// =========================================================================
+const TRIP = [
+  {
+    id: 'rome1', num: 'I', name: 'Rome', sub: 'the opener',
+    dates: '12 — 14 Jun', base: 'Trastevere', accom: 'Via In Piscinula 37',
+    mapsQuery: 'Via In Piscinula 37, Trastevere, Rome',
+    gettingThere: 'From Roma Fiumicino (FCO): Leonardo Express train to Termini (32 min, €14), then taxi (~€15) or Bus H to Trastevere. Direct airport taxi is a flat €55 to the centre.',
+    dayPlans: [
+      { title: 'The Ancient Day', shape: 'Colosseum at opening (8:30am), Forum + Palatine after. Lunch in Monti. Slow gelato wander. Dinner in Trastevere.' },
+      { title: 'The Vatican Day', shape: 'Vatican Museums early slot, lunch in Prati. Borghese in the afternoon if booked. Evening walk to Trevi + Pantheon.' },
+      { title: 'The Slow Day', shape: 'Trastevere morning, Villa Farnesina. Cooking class afternoon. Spanish Steps at sunset, late dinner.' }
+    ],
+    do: [
+      'Wander Trastevere, find Villa Farnesina', 'Tiber Island stroll',
+      'Mercato del Pigneto (Friday market)', 'Colosseum tour + Roman Forum',
+      'Cooking class', 'Spanish Steps at sunset', 'Vatican Museums (early slot)',
+      'Galleria Borghese (book essential)', 'Trevi Fountain + Pantheon after dinner'
+    ],
+    eat: [
+      'Necci dal 1924 — aperitivo in Pigneto', 'Otaleg — best gelato in Trastevere',
+      'Bar San Calisto — €1.50 spritz', 'Da Enzo al 29 — cacio e pepe, carciofi (7pm or queue)',
+      'Lunch in Prati on Vatican day'
+    ],
+    tips: [
+      'Avoid laminated menus', 'No food within 200m of Trevi or the Pantheon',
+      'Ignore the carriage ride dudes outside the Colosseum'
+    ]
+  },
+  {
+    id: 'taormina', num: 'II', name: 'Taormina', sub: 'sicily · cliffside',
+    dates: '15 — 16 Jun', base: 'Corso Umberto', accom: '187A Corso Umberto',
+    mapsQuery: '187A Corso Umberto, Taormina, Sicily',
+    gettingThere: 'Fly Rome (FCO) → Catania (CTA), ~1h. From CTA: Etna Trasporti bus to Taormina (~€8, 1.5h, drops near old town) or pre-book a transfer (~€80, 45 min).',
+    dayPlans: [
+      { title: 'The Sea Day', shape: 'Isola Bella morning swim. Lunch back in town. Villa Comunale wander. Greek theatre at sunset, dinner after.' },
+      { title: 'The Etna Day', shape: 'Slow morning with granita. Drive up to Etna late afternoon with Etna3340 guide. Sunset on the volcano, late dinner.' }
+    ],
+    do: [
+      'Villa Comunale gardens', 'Greek theatre at sunset, dinner after',
+      'Isola Bella (morning swim)', 'Mount Etna — late arvo / evening',
+      'Almond wine at Caffè San Giorgio'
+    ],
+    eat: [
+      'Osteria Nero D\'Avola (book)', 'Tischi Toschi (book)',
+      'Bam Bam Granita', 'Laboratorio Pasticceria Roberto',
+      'Da Cristina — takeaway pizza lunch'
+    ],
+    tips: [
+      'Etna is best late arvo/evening — use Etna3340 for a guide',
+      'Skip the "real Sicilian" cooking demos near the main square',
+      'Avoid multilingual menus on Corso Umberto'
+    ]
+  },
+  {
+    id: 'ortigia', num: 'III', name: 'Ortigia', sub: 'syracuse · sea-baked',
+    dates: '17 — 18 Jun', base: 'Giudecca', accom: '28 Vicolo IV Alla Giudecca',
+    mapsQuery: '28 Vicolo IV Alla Giudecca, Ortigia, Syracuse',
+    gettingThere: 'Train from Taormina-Giardini station to Siracusa Centrale (~2.5h, €12—18). Then a 20-min walk into Ortigia old town, or short taxi over the bridge.',
+    dayPlans: [
+      { title: 'The Ortigia Day', shape: 'Mercato at 9am (Borderi sandwich — non-negotiable). Piazza Duomo wander. Rocky swim off the seawall. Sunset wine bar.' },
+      { title: 'The Noto Day', shape: 'Bus or train to Noto for the baroque town and a long lunch. Back for sunset in Ortigia, late dinner.' }
+    ],
+    do: [
+      'Mercato di Ortigia', 'Piazza Duomo wander',
+      'Morning swim off the rocks', 'Day trip to Noto'
+    ],
+    eat: [
+      'Caseificio Borderi — essential, do not skip',
+      'Fratelli Burgio for lunch', 'MOON (vegan)',
+      'Solaria wine bar (dinner)', 'Granita at Caffè Sicilia'
+    ],
+    tips: [
+      'Skip restaurants directly on Piazza Duomo — gorgeous square, mediocre food, premium prices'
+    ]
+  },
+  {
+    id: 'barcelona', num: 'IV', name: 'Barcelona', sub: 'eixample · the long stay',
+    dates: '19 — 22 Jun', base: 'Eixample', accom: 'Bruc 117, Principal',
+    mapsQuery: 'Bruc 117, Eixample, Barcelona',
+    gettingThere: 'From BCN airport: Aerobus to Plaça Catalunya (35 min, €7), then 10-min walk or one metro stop to Eixample. Or RENFE train to Passeig de Gràcia (40 min, €5).',
+    dayPlans: [
+      { title: 'The Gaudí Day', shape: 'Sagrada Familia morning slot. Lunch nearby. Park Güell late afternoon when the light softens. Dinner in Gràcia.' },
+      { title: 'The Beach + Born Day', shape: 'Bogatell or Mar Bella morning swim. Lunch by the water. El Born wander, Santa Caterina market. Pintxos dinner.' },
+      { title: 'The Vintage Day', shape: 'Holala! and Le Swing morning. Long lunch. Neare, Arepa, Lullaby in the afternoon. Dubblefilm photobooth. Late dinner.' },
+      { title: 'The Slow Sunday', shape: 'Concepció market morning. Botanic brunch. White Rabbit Museum. El Gran Flea Market. Pintxos crawl on Carrer de Blai.' }
+    ],
+    do: [
+      'Sagrada Familia', 'Park Güell',
+      'Mercat de la Concepció (local market)', 'Mercat de Santa Caterina (El Born)',
+      'Bogatell or Mar Bella beach', 'Dubblefilm photobooth',
+      'White Rabbit Museum', 'Fundació Joan Miró',
+      'Vintage: Holala! Plaza, Le Swing, Beep Beep Vintage',
+      'Vintage: Neare, Arepa, Lullaby', 'El Gran Flea Market'
+    ],
+    eat: [
+      'Botanic — vegan brunch', 'Gallo Santo — vegan Mexican',
+      'Honest Greens — healthy bowls', 'Nudes — smoothies',
+      'Grasa — vegan wine bar', 'Carrer de Blai (Poble Sec) — pintxos street, €1—2 each'
+    ],
+    tips: [
+      'Barcelona city tax is cash only',
+      'Carrer de Blai: pintxos priced by toothpick — keep yours'
+    ]
+  },
+  {
+    id: 'cassis', num: 'V', name: 'Cassis', sub: 'côte d\'azur · slow',
+    dates: '23 — 25 Jun', base: 'Avenue Victor Hugo', accom: '34 Avenue Victor Hugo',
+    mapsQuery: '34 Avenue Victor Hugo, Cassis, France',
+    gettingThere: 'Train from Barcelona Sants to Marseille Saint-Charles (~5h via TGV/AVE), then TER train Marseille → Cassis (25 min, €7). Total around 6h. Or fly BCN → MRS and shuttle (~25 min) to St-Charles then TER.',
+    dayPlans: [
+      { title: 'The Calanques Day', shape: 'Kayak or boat at 8 or 9am — book ahead. Late lunch in port. Swim afternoon. Sunset at Cap Canaille (highest sea cliff in France).' },
+      { title: 'The Slow Port Day', shape: 'Beach morning. Lazy port lunch. Wine tasting at a Cassis vineyard. Sunset apéro by the water.' },
+      { title: 'The Hike Day', shape: 'Calanques hike — start early, midsummer access can be restricted in heat. Picnic at the calanque. Dinner back in town.' }
+    ],
+    do: [
+      'Kayak the Calanques (Bleu Évasion, Atelier Bleu)',
+      'Or boat tour (8am or 9am slot)', 'Or hike the Calanques',
+      'Wine tasting in Cassis vineyards',
+      'Sunset at Cap Canaille (highest sea cliff in France)'
+    ],
+    eat: [],
+    tips: [
+      'Restaurants directly on Cassis port with multilingual menus + photos = trap',
+      'Skip Marseille Vieux Port boat hawkers — book Calanques tours from Cassis instead',
+      'Book kayak/boat in advance, slots fill'
+    ]
+  },
+  {
+    id: 'paris', num: 'VI', name: 'Paris', sub: 'le marais',
+    dates: '26 — 28 Jun', base: 'Le Marais (4th)', accom: '9 rue d\'Ormesson',
+    mapsQuery: '9 rue d\'Ormesson, 75004 Paris',
+    gettingThere: 'TGV Marseille → Paris Gare de Lyon is ~3h15, often cheaper and more central than flying. Then metro 1 from Gare de Lyon to Saint-Paul (10 min). If flying: ORY → Orlybus → Denfert + metro 4 to Saint-Paul; CDG → RER B to Châtelet + walk.',
+    dayPlans: [
+      { title: 'The Marais Day', shape: 'Place des Vosges, Picasso Museum. Lunch in the Marais. Seine walk to Île Saint-Louis for Berthillon gelato. Apéro.' },
+      { title: 'The Eiffel Day', shape: 'Late start. Eiffel at golden hour. Champ de Mars picnic. Sunset sparkles at 10pm — yes, it\'s that late in June.' },
+      { title: 'The Slow Paris Day', shape: 'Canal Saint-Martin morning coffee. Vintage in Marais. Late dinner — Paris does 9pm well.' }
+    ],
+    do: [
+      'Eiffel Tower (obvs)', 'Wander Le Marais', 'Picnic on the Seine'
+    ],
+    eat: [],
+    tips: [
+      'Free airport transfer organised via booking.com — schedule for your TGD flight morning'
+    ]
+  },
+  {
+    id: 'kotor', num: 'VII', name: 'Kotor', sub: 'montenegro · the bay',
+    dates: '29 Jun — 3 Jul', base: 'Dobrota', accom: 'Street 3, Number 9/39',
+    mapsQuery: 'Dobrota, Kotor, Montenegro',
+    gettingThere: 'From Podgorica (TGD) airport: pre-book a transfer to Dobrota (~€80, 1.5h scenic drive along the bay) — easiest. Cheaper: bus to Kotor station then local taxi.',
+    dayPlans: [
+      { title: 'The Old Town Day', shape: 'Wander old town. Lunch. Fortress hike late afternoon (skip midday — brutal). Monte1350 bar for sunset.' },
+      { title: 'The Boat Day', shape: 'Hire a boat at 9am. Our Lady of the Rocks, Blue Caves. Lunch in Perast (Konoba Akustik). Evening drinks at Moments.' },
+      { title: 'The Budva Day', shape: 'Drive to Budva, Citadela. Mogren Beach, Sveti Nikola Island. Dinner back in Kotor.' },
+      { title: 'The Coast Day', shape: 'Sveti Stefan viewpoint. Miločer Park. Praskvica Monastery. Lazy lunch, swim. Back for sunset.' },
+      { title: 'The Slow Bay Day', shape: 'Potter around Dobrota. Swim off the coast. Kraken Wine Bar (booked!). Cathedral Pasta Bar after.' }
+    ],
+    do: [
+      'Old town wander', 'Fortress hike (early, before heat)',
+      'Cable car up the mountain', 'Alpine rollercoaster',
+      'Hire a boat — Our Lady of the Rocks + Blue Caves',
+      'Check out Perast village', 'Budva citadela',
+      'Sveti Nikola Island', 'Mogren Beach (Budva)',
+      'Sveti Stefan viewpoint', 'Miločer Park', 'Praskvica Monastery'
+    ],
+    eat: [
+      'Kraken Wine Bar (book)', 'Cathedral Pasta Bar',
+      'Monte1350 Bar (for the view)', 'Moments (Perast)',
+      'Konoba Akustik (Perast)', 'BBQ Tanjga', 'Forza Bakery'
+    ],
+    tips: [
+      'Hire boat early — best light in the morning on the bay'
+    ]
+  },
+  {
+    id: 'rome2', num: 'VIII', name: 'Rome', sub: 'monti · the wind-down',
+    dates: '4 — 6 Jul', base: 'Monti', accom: '15 Via Venezia',
+    mapsQuery: '15 Via Venezia, Monti, Rome',
+    gettingThere: 'From FCO: Leonardo Express to Termini (32 min, €14), then 10-min walk down Via Cavour into Monti. Easiest accom arrival of the whole trip.',
+    dayPlans: [
+      { title: 'The Sunrise Day', shape: 'Aventine Hill at sunrise — Giardino degli Aranci, Knights of Malta keyhole. Late breakfast in Monti. Trattoria Monti for dinner.' },
+      { title: 'The Last Day', shape: 'Revisit your favourites. One last gelato. Slow dinner. Early night for the flight.' }
+    ],
+    do: [
+      'Aventine Hill at sunrise — Giardino degli Aranci',
+      'Knights of Malta keyhole', 'Slow last days, repeat favourites'
+    ],
+    eat: [ 'Trattoria Monti' ],
+    tips: []
+  }
+];
+
+const BOOKINGS = {
+  urgent: {
+    label: 'now / this week',
+    items: [
+      { key: 'sicily-accom', what: 'Sicily accom — Taormina + Ortigia', why: 'Not booked. Two stays. Peak season disappearing fast.' },
+      { key: 'paris-accom', what: 'Paris accom — Le Marais', why: 'Not booked yet.' },
+      { key: 'cassis-accom', what: 'Cassis accom', why: 'No payment recorded — confirm or rebook.' },
+      { key: 'rome-accom-1', what: 'Pay Rome accom 1 (Trastevere)', why: '$860 outstanding.' },
+      { key: 'rome-tax', what: 'Pay Rome city tax', why: '$49 outstanding.' },
+      { key: 'borghese', what: 'Galleria Borghese ticket', why: 'Slots vanish 2—3 weeks out.' },
+      { key: 'vatican', what: 'Vatican Museums early slot', why: 'Skip-the-line books out.' }
+    ]
+  },
+  soon: {
+    label: 'next 2 weeks',
+    items: [
+      { key: 'calanques', what: 'Calanques kayak or boat (Cassis)', why: 'Summer slots fill. Try Bleu Évasion or Atelier Bleu.' },
+      { key: 'etna', what: 'Etna evening guide (Etna3340)', why: 'Sunset slots are the popular ones.' },
+      { key: 'cooking-class', what: 'Rome cooking class', why: 'The good ones go.' },
+      { key: 'rome-tour', what: 'Colosseum + Forum tour', why: 'Walk-up queues are wild in June.' },
+      { key: 'kotor-boat', what: 'Kotor private boat hire', why: 'Easier to lock in early — ask your accom host.' }
+    ]
+  },
+  later: {
+    label: '1—2 weeks before',
+    items: [
+      { key: 'da-enzo', what: 'Da Enzo al 29 (Rome)', why: 'Limited bookings — try, otherwise queue 7pm sharp.' },
+      { key: 'nero-davola', what: 'Osteria Nero D\'Avola (Taormina)', why: 'Book.' },
+      { key: 'tischi-toschi', what: 'Tischi Toschi (Taormina)', why: 'Tiny place. Book or no chance.' },
+      { key: 'kraken', what: 'Kraken Wine Bar (Kotor)', why: 'Popular spot. Book.' },
+      { key: 'trattoria-monti', what: 'Trattoria Monti (Rome 2)', why: 'Closed Sundays — plan around it. Book.' }
+    ]
+  }
+};
+
+const TRAVEL = [
+  { key: 'rome-taormina', date: '15 Jun', route: 'Rome → Taormina', mode: 'Flight FCO→CTA + bus/transfer', time: '~3.5h door to door', cost: '$80—150', notes: 'Bus from CTA airport ~€8, 1.5h. Etna Trasporti.' },
+  { key: 'taormina-ortigia', date: '17 Jun', route: 'Taormina → Ortigia', mode: 'Train', time: '~2.5h', cost: '€12—18', notes: 'From Taormina-Giardini station to Siracusa Centrale.' },
+  { key: 'catania-barcelona', date: '19 Jun', route: 'Catania → Barcelona', mode: 'Bus to CTA + flight', time: '~6h', cost: 'varies — book soon', notes: 'Bus Ortigia→CTA then flight (may be direct or via Rome).' },
+  { key: 'barcelona-cassis', date: '22 Jun', route: 'Barcelona → Cassis', mode: 'TGV / AVE via Marseille', time: '~6h all up', cost: '~$60 +', notes: 'BCN Sants → Marseille (5h), then 25-min TER to Cassis.' },
+  { key: 'marseille-paris', date: '25 Jun', route: 'Marseille → Paris', mode: 'TGV (better than flying)', time: '~3h15', cost: '~$80', notes: 'TGV from Marseille St-Charles to Gare de Lyon. More central than flying.' }
+];
+
+// =========================================================================
+// STATE
+// =========================================================================
+let state = { done: {}, custom: {} };
+
+async function loadState() {
+  try {
+    const r = await window.storage.get('eurosummer:state');
+    if (r && r.value) state = JSON.parse(r.value);
+  } catch (e) { /* not found, fine */ }
+}
+async function saveState() {
+  try { await window.storage.set('eurosummer:state', JSON.stringify(state)); }
+  catch (e) { console.error('save failed', e); }
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function mapLink(query) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
+function itemKey(cityId, category, idx, isCustom) {
+  return `${cityId}:${category}:${isCustom ? 'c' : 'd'}:${idx}`;
+}
+
+// =========================================================================
+// RENDER
+// =========================================================================
+function renderTimeline() {
+  const tl = document.getElementById('timeline');
+  tl.innerHTML = TRIP.map((c, i) => `
+    <a class="stop" href="#${c.id}">
+      <div class="stop-num">${String(i+1).padStart(2, '0')}</div>
+      <div class="stop-name">${c.name}</div>
+      <div class="stop-dates">${c.dates.split(' — ')[0]}</div>
+    </a>
+  `).join('');
+}
+
+function renderTiers() {
+  const root = document.getElementById('tiers');
+  const tiers = ['urgent', 'soon', 'later'];
+  root.innerHTML = tiers.map(t => {
+    const tier = BOOKINGS[t];
+    return `
+      <div class="tier-col ${t}">
+        <h3>${t}</h3>
+        <span class="tier-when">${tier.label}</span>
+        ${tier.items.map(b => {
+          const k = `booking:${b.key}`;
+          const done = state.done[k];
+          return `
+            <div class="booking ${done ? 'done' : ''}" data-bkey="${k}">
+              <div class="box"></div>
+              <div class="b-text">
+                <div class="b-what">${escapeHtml(b.what)}</div>
+                <div class="b-why">${escapeHtml(b.why)}</div>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+  }).join('');
+}
+
+function renderTravel() {
+  const root = document.getElementById('travel-list');
+  root.innerHTML = TRAVEL.map(t => {
+    const k = `travel:${t.key}`;
+    const done = state.done[k];
+    return `
+      <div class="travel-row ${done ? 'done' : ''}" data-tkey="${k}">
+        <div class="box"></div>
+        <div class="tr-main">
+          <div class="tr-route">${escapeHtml(t.route)}</div>
+          <div class="tr-meta">${escapeHtml(t.mode)} · ${escapeHtml(t.time)} · ${escapeHtml(t.cost)} · ${escapeHtml(t.notes)}</div>
+        </div>
+        <div class="tr-date">${escapeHtml(t.date)}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderList(city, category, items) {
+  const labels = { do: 'do', eat: 'eat', tips: 'know' };
+  const placeholders = {
+    do: 'add a place, sight, vibe…',
+    eat: 'add a restaurant, bar, treat…',
+    tips: 'add a tip or thing to avoid…'
+  };
+  const customItems = (state.custom[city.id] && state.custom[city.id][category]) || [];
+  const allItems = [
+    ...items.map((t, i) => ({t, i, custom: false})),
+    ...customItems.map((t, i) => ({t, i, custom: true}))
+  ];
+  return `
+    <div class="list-block ${category}">
+      <h3>${labels[category]}<span class="count">${allItems.length}</span></h3>
+      <ul class="list">
+        ${allItems.map(({t, i, custom}) => {
+          const k = itemKey(city.id, category, i, custom);
+          const done = state.done[k];
+          return `
+            <li class="item ${done ? 'done' : ''}" data-key="${k}">
+              <div class="box"></div>
+              <div class="text">${escapeHtml(t)}</div>
+              ${custom ? `<button class="del" data-del="${city.id}|${category}|${i}" title="remove">✕</button>` : ''}
+            </li>
+          `;
+        }).join('')}
+      </ul>
+      <input class="add-input" type="text" placeholder="${placeholders[category]}" data-add="${city.id}|${category}">
+    </div>
+  `;
+}
+
+function renderDayPlans(city) {
+  if (!city.dayPlans || !city.dayPlans.length) return '';
+  return `
+    <div class="day-plans">
+      <div class="day-plans-label">day shapes — pick whichever fits the mood</div>
+      <div class="day-plans-grid">
+        ${city.dayPlans.map(d => `
+          <div class="day-card">
+            <div class="dc-title">${escapeHtml(d.title)}</div>
+            <div class="dc-shape">${escapeHtml(d.shape)}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderCity(city) {
+  return `
+    <section class="city" id="${city.id}">
+      <header class="city-header">
+        <div class="city-num">${city.num}</div>
+        <div class="city-title">
+          <h2 class="city-name">${city.name}</h2>
+          <div class="city-sub">${city.sub}</div>
+        </div>
+        <div class="city-dates">${city.dates}</div>
+      </header>
+      <div class="city-meta">
+        <strong>BASE</strong>${city.base}  ·  <strong>STAY</strong><a href="${mapLink(city.mapsQuery)}" target="_blank" rel="noopener">${escapeHtml(city.accom)}</a>
+      </div>
+      <div class="getting-there">
+        <div class="gt-label">getting there</div>
+        <div class="gt-body">${escapeHtml(city.gettingThere)}</div>
+      </div>
+      ${renderDayPlans(city)}
+      <div class="lists">
+        ${renderList(city, 'do', city.do)}
+        ${renderList(city, 'eat', city.eat)}
+        ${renderList(city, 'tips', city.tips)}
+      </div>
+    </section>
+  `;
+}
+
+function renderCities() {
+  const root = document.getElementById('cities');
+  root.innerHTML = TRIP.map(city => renderCity(city)).join('');
+  attachHandlers();
+}
+
+// =========================================================================
+// HANDLERS
+// =========================================================================
+function attachHandlers() {
+  document.querySelectorAll('.item').forEach(el => {
+    el.addEventListener('click', (e) => {
+      if (e.target.matches('.del')) return;
+      const k = el.dataset.key;
+      state.done[k] = !state.done[k];
+      el.classList.toggle('done');
+      saveState();
+    });
+  });
+  document.querySelectorAll('[data-del]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const [cityId, category, idxStr] = btn.dataset.del.split('|');
+      const idx = parseInt(idxStr, 10);
+      if (state.custom[cityId] && state.custom[cityId][category]) {
+        state.custom[cityId][category].splice(idx, 1);
+        const prefix = `${cityId}:${category}:c:`;
+        const newDone = {};
+        Object.keys(state.done).forEach(k => {
+          if (!k.startsWith(prefix)) { newDone[k] = state.done[k]; }
+          else {
+            const i = parseInt(k.slice(prefix.length), 10);
+            if (i < idx) newDone[k] = state.done[k];
+            else if (i > idx) newDone[`${prefix}${i-1}`] = state.done[k];
+          }
+        });
+        state.done = newDone;
+      }
+      saveState();
+      renderCities();
+    });
+  });
+  document.querySelectorAll('[data-add]').forEach(input => {
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && input.value.trim()) {
+        const [cityId, category] = input.dataset.add.split('|');
+        if (!state.custom[cityId]) state.custom[cityId] = {};
+        if (!state.custom[cityId][category]) state.custom[cityId][category] = [];
+        state.custom[cityId][category].push(input.value.trim());
+        input.value = '';
+        saveState();
+        renderCities();
+        setTimeout(() => {
+          const next = document.querySelector(`[data-add="${cityId}|${category}"]`);
+          if (next) next.focus();
+        }, 0);
+      }
+    });
+  });
+}
+
+function attachTierHandlers() {
+  document.querySelectorAll('[data-bkey]').forEach(el => {
+    el.addEventListener('click', () => {
+      const k = el.dataset.bkey;
+      state.done[k] = !state.done[k];
+      el.classList.toggle('done');
+      saveState();
+    });
+  });
+}
+
+function attachTravelHandlers() {
+  document.querySelectorAll('[data-tkey]').forEach(el => {
+    el.addEventListener('click', () => {
+      const k = el.dataset.tkey;
+      state.done[k] = !state.done[k];
+      el.classList.toggle('done');
+      saveState();
+    });
+  });
+}
+
+async function resetAll() {
+  if (!confirm('clear all your ticks and added items? this can\'t be undone.')) return;
+  state = { done: {}, custom: {} };
+  await saveState();
+  renderTiers(); attachTierHandlers();
+  renderTravel(); attachTravelHandlers();
+  renderCities();
+}
+
+(async function init() {
+  await loadState();
+  renderTimeline();
+  renderTiers(); attachTierHandlers();
+  renderCities();
+  renderTravel(); attachTravelHandlers();
+})();
+</script>
+
+</body>
+</html>
