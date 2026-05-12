@@ -22,9 +22,7 @@
     --sun: #c08621;
     --rule: #c9b896;
   }
-
   * { box-sizing: border-box; }
-
   html, body {
     margin: 0; padding: 0;
     background: var(--paper);
@@ -34,7 +32,6 @@
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
   }
-
   body {
     background-image:
       radial-gradient(circle at 20% 10%, rgba(184, 67, 30, 0.04) 0, transparent 40%),
@@ -42,7 +39,6 @@
       url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.1, 0 0 0 0 0.08, 0 0 0 0 0.06, 0 0 0 0.04 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
     min-height: 100vh;
   }
-
   .wrap { max-width: 880px; margin: 0 auto; padding: 40px 24px 80px; }
 
   /* HERO */
@@ -87,8 +83,7 @@
 
   /* SECTION HEADERS */
   .section-head {
-    margin-top: 90px;
-    padding-bottom: 14px;
+    margin-top: 90px; padding-bottom: 14px;
     border-bottom: 1px solid var(--ink);
     display: flex; align-items: baseline; gap: 16px;
   }
@@ -129,31 +124,61 @@
   }
   .booking {
     display: flex; gap: 10px; padding: 9px 0;
-    border-bottom: 1px dotted var(--rule); cursor: pointer;
+    border-bottom: 1px dotted var(--rule);
     align-items: flex-start;
+    position: relative;
   }
   .booking:last-child { border-bottom: none; }
   .booking .box {
     flex-shrink: 0; width: 14px; height: 14px;
     border: 1.5px solid var(--ink-soft); margin-top: 4px;
     border-radius: 2px; transition: all 0.15s; position: relative;
+    cursor: pointer;
   }
   .booking.done .box { background: var(--ink); border-color: var(--ink); }
   .booking.done .box::after {
     content: '✓'; color: var(--paper); font-size: 11px;
     position: absolute; top: -1px; left: 1px; font-weight: bold;
   }
-  .booking .b-text { flex: 1; }
+  .booking .b-text { flex: 1; min-width: 0; }
   .booking .b-what {
     font-size: 14px; color: var(--ink); line-height: 1.35; font-weight: 500;
+    outline: none;
   }
   .booking .b-why {
     font-size: 12px; color: var(--ink-faded);
     font-family: 'Fraunces', serif; font-style: italic;
     margin-top: 2px; line-height: 1.4;
+    outline: none;
   }
   .booking.done .b-what { text-decoration: line-through; color: var(--ink-faded); }
   .booking.done .b-why { opacity: 0.5; }
+  .booking .del-btn {
+    flex-shrink: 0; opacity: 0; background: none; border: none;
+    color: var(--ink-faded); cursor: pointer; font-size: 14px;
+    padding: 0 4px; transition: opacity 0.2s, color 0.2s;
+    align-self: flex-start; margin-top: 2px;
+  }
+  .booking:hover .del-btn { opacity: 0.6; }
+  .booking .del-btn:hover { color: var(--terracotta); opacity: 1; }
+  [contenteditable="true"]:focus {
+    background: rgba(255, 255, 255, 0.4);
+    outline: none;
+    box-shadow: inset 0 -1px 0 var(--terracotta);
+  }
+  [contenteditable="true"]:empty::before {
+    content: attr(data-placeholder);
+    color: var(--ink-faded); opacity: 0.5; font-style: italic;
+  }
+  .add-btn {
+    background: none; border: 1px dashed var(--rule);
+    color: var(--ink-faded);
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.1em; padding: 6px 10px;
+    cursor: pointer; text-transform: uppercase;
+    transition: all 0.2s; margin-top: 10px; width: 100%;
+  }
+  .add-btn:hover { border-color: var(--terracotta); color: var(--terracotta); border-style: solid; }
 
   /* CITY SECTION */
   .city { margin-top: 70px; scroll-margin-top: 20px; }
@@ -180,7 +205,7 @@
   }
   .city-meta {
     font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-faded);
-    margin-bottom: 16px; padding: 10px 14px;
+    margin-bottom: 18px; padding: 10px 14px;
     background: var(--paper-2); border-left: 3px solid var(--sun);
   }
   .city-meta strong { color: var(--ink-soft); font-weight: 500; margin-right: 6px; }
@@ -190,9 +215,48 @@
   }
   .city-meta a:hover { color: var(--terracotta-dark); }
 
+  /* DATE STRIP */
+  .date-strip { margin-bottom: 22px; }
+  .dates-row {
+    display: flex; flex-wrap: wrap; gap: 0;
+    border-top: 1px dashed var(--rule); border-bottom: 1px dashed var(--rule);
+    padding: 8px 0; margin-bottom: 6px;
+  }
+  .dchip {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.08em; color: var(--ink-soft);
+    padding: 2px 12px 2px 0; margin-right: 12px;
+    position: relative;
+  }
+  .dchip .dow {
+    color: var(--ink-faded); margin-right: 4px;
+    text-transform: uppercase;
+  }
+  .dchip.notable .dow, .dchip.notable .dom {
+    color: var(--terracotta); font-weight: 500;
+  }
+  .dchip.notable::after {
+    content: '✦'; font-size: 8px; color: var(--terracotta);
+    margin-left: 4px; vertical-align: super;
+  }
+  .date-notes {
+    padding: 4px 0 0;
+  }
+  .dnote {
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 13px; color: var(--ink-soft);
+    padding: 3px 0; padding-left: 16px;
+    position: relative; line-height: 1.45;
+  }
+  .dnote::before {
+    content: '✦'; position: absolute; left: 0; top: 4px;
+    color: var(--terracotta); font-size: 9px;
+  }
+  .dnote strong { color: var(--ink); font-weight: 500; font-style: normal; }
+
   /* GETTING THERE */
   .getting-there {
-    margin-bottom: 28px;
+    margin-bottom: 18px;
     padding: 14px 16px;
     background: linear-gradient(to right, rgba(58, 102, 121, 0.08), transparent);
     border-left: 3px solid var(--sea);
@@ -206,6 +270,26 @@
   }
   .getting-there .gt-label::before { content: '→'; font-size: 14px; }
   .getting-there .gt-body { color: var(--ink-soft); }
+
+  /* FOR HER (vego) */
+  .for-her {
+    margin-bottom: 28px;
+    padding: 14px 16px;
+    background: linear-gradient(to right, rgba(94, 107, 62, 0.10), transparent);
+    border-left: 3px solid var(--olive);
+    font-size: 14px; line-height: 1.55;
+  }
+  .for-her .fh-label {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--olive); margin-bottom: 4px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .for-her .fh-label::before { content: '✿'; font-size: 12px; }
+  .for-her .fh-body { color: var(--ink-soft); }
+  .for-her .fh-body em {
+    color: var(--olive); font-style: italic; font-weight: 500;
+  }
 
   /* DAY PLANS */
   .day-plans { margin-bottom: 36px; }
@@ -230,11 +314,21 @@
   .day-card .dc-title {
     font-family: 'Fraunces', serif; font-style: italic;
     font-size: 18px; color: var(--ink); margin-bottom: 4px;
-    line-height: 1.15;
+    line-height: 1.15; outline: none;
+    padding-right: 20px;
   }
   .day-card .dc-shape {
     font-size: 13.5px; color: var(--ink-soft); line-height: 1.5;
+    outline: none;
   }
+  .day-card .dc-del {
+    position: absolute; top: 6px; right: 6px;
+    opacity: 0; background: none; border: none;
+    color: var(--ink-faded); cursor: pointer; font-size: 14px;
+    padding: 2px 6px; transition: opacity 0.2s, color 0.2s;
+  }
+  .day-card:hover .dc-del { opacity: 0.5; }
+  .day-card .dc-del:hover { color: var(--terracotta); opacity: 1; }
 
   /* LISTS */
   .lists { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
@@ -246,7 +340,6 @@
     .city-num { font-size: 48px; }
     .city-name { font-size: 32px; }
   }
-
   .list-block h3 {
     font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
     font-size: 24px; margin: 0 0 14px; color: var(--ink);
@@ -259,37 +352,40 @@
   .list-block.do h3::before { content: '◆'; color: var(--terracotta); font-size: 14px; }
   .list-block.eat h3::before { content: '●'; color: var(--olive); font-size: 14px; }
   .list-block.tips h3::before { content: '◇'; color: var(--sea); font-size: 14px; }
-
   .list { list-style: none; margin: 0; padding: 0; }
   .item {
     display: flex; align-items: flex-start; gap: 10px;
     padding: 7px 0; border-bottom: 1px dotted var(--rule);
-    cursor: pointer; transition: opacity 0.2s;
+    transition: opacity 0.2s; position: relative;
   }
   .item:last-child { border-bottom: none; }
   .item .box {
     flex-shrink: 0; width: 14px; height: 14px;
     border: 1.5px solid var(--ink-soft); margin-top: 5px;
     border-radius: 2px; transition: all 0.15s; position: relative;
+    cursor: pointer;
   }
   .item.done .box { background: var(--ink); border-color: var(--ink); }
   .item.done .box::after {
     content: '✓'; color: var(--paper); font-size: 11px;
     position: absolute; top: -1px; left: 1px; font-weight: bold;
   }
-  .item .text { flex: 1; font-size: 15px; color: var(--ink); line-height: 1.45; }
+  .item .text {
+    flex: 1; font-size: 15px; color: var(--ink); line-height: 1.45;
+    outline: none; min-width: 0; word-wrap: break-word;
+  }
   .item.done .text {
     text-decoration: line-through; text-decoration-color: var(--ink-faded);
     color: var(--ink-faded);
   }
-  .item .del {
-    opacity: 0; background: none; border: none; color: var(--ink-faded);
-    cursor: pointer; font-size: 14px; padding: 0 4px;
-    transition: opacity 0.2s, color 0.2s;
+  .item .del-btn {
+    flex-shrink: 0; opacity: 0; background: none; border: none;
+    color: var(--ink-faded); cursor: pointer; font-size: 14px;
+    padding: 0 4px; transition: opacity 0.2s, color 0.2s; align-self: flex-start;
+    margin-top: 3px;
   }
-  .item:hover .del { opacity: 0.6; }
-  .item .del:hover { color: var(--terracotta); opacity: 1; }
-
+  .item:hover .del-btn { opacity: 0.6; }
+  .item .del-btn:hover { color: var(--terracotta); opacity: 1; }
   .add-input {
     width: 100%; background: transparent; border: none;
     border-bottom: 1px dashed var(--rule);
@@ -300,19 +396,44 @@
   .add-input::placeholder { color: var(--ink-faded); opacity: 0.7; }
   .add-input:focus { border-bottom-color: var(--terracotta); font-style: normal; }
 
+  /* CITY NOTES */
+  .city-notes {
+    margin-top: 30px;
+    padding: 18px 20px;
+    background: var(--paper-2);
+    border-top: 2px dashed var(--rule);
+    border-bottom: 2px dashed var(--rule);
+  }
+  .city-notes-label {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--ink-faded); margin-bottom: 8px;
+  }
+  .city-notes-body {
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 16px; color: var(--ink); line-height: 1.55;
+    outline: none; min-height: 24px;
+    white-space: pre-wrap;
+  }
+  .city-notes-body:empty::before {
+    content: 'your notes, scribbles, things bae says, restaurant recs from friends…';
+    color: var(--ink-faded); opacity: 0.5;
+  }
+
   /* TRAVEL TO BOOK */
   .travel-list { margin-top: 28px; }
   .travel-row {
     display: grid; grid-template-columns: auto 1fr auto;
     gap: 16px; padding: 14px 0;
     border-bottom: 1px dotted var(--rule);
-    cursor: pointer; align-items: center;
+    align-items: center;
   }
   .travel-row:last-child { border-bottom: none; }
   .travel-row .box {
     flex-shrink: 0; width: 14px; height: 14px;
     border: 1.5px solid var(--ink-soft);
     border-radius: 2px; transition: all 0.15s; position: relative;
+    cursor: pointer;
   }
   .travel-row.done .box { background: var(--ink); border-color: var(--ink); }
   .travel-row.done .box::after {
@@ -332,9 +453,7 @@
     color: var(--terracotta); text-align: right;
     letter-spacing: 0.05em; white-space: nowrap;
   }
-  .travel-row.done .tr-route {
-    text-decoration: line-through; color: var(--ink-faded);
-  }
+  .travel-row.done .tr-route { text-decoration: line-through; color: var(--ink-faded); }
   .travel-row.done .tr-meta, .travel-row.done .tr-date { opacity: 0.6; }
 
   /* LOGISTICS */
@@ -410,7 +529,6 @@
     content: '✶  ✶  ✶'; display: block; color: var(--rule);
     margin-bottom: 16px; letter-spacing: 1em;
   }
-
   .reset-btn {
     margin-top: 40px; background: none;
     border: 1px solid var(--rule); color: var(--ink-faded);
@@ -420,7 +538,16 @@
     transition: all 0.2s;
   }
   .reset-btn:hover { border-color: var(--terracotta); color: var(--terracotta); }
-
+  .save-indicator {
+    position: fixed; bottom: 20px; right: 20px;
+    background: var(--ink); color: var(--paper);
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 6px 12px; border-radius: 2px;
+    opacity: 0; transition: opacity 0.3s;
+    pointer-events: none; z-index: 100;
+  }
+  .save-indicator.show { opacity: 0.85; }
   .loading {
     text-align: center; padding: 60px;
     color: var(--ink-faded); font-style: italic;
@@ -432,7 +559,6 @@
 
 <div class="wrap">
 
-  <!-- HERO -->
   <div class="hero">
     <div class="hero-eyebrow">11 Jun — 6 Jul 2026 · 25 days · 8 stops</div>
     <h1>Euro Summer<br><em>w/ bae</em></h1>
@@ -440,21 +566,18 @@
     <nav class="timeline" id="timeline"></nav>
   </div>
 
-  <!-- BEFORE YOU LEAVE -->
   <section class="preflight">
     <div class="section-head">
       <h2>before you leave</h2>
-      <span class="section-sub">book the buggers</span>
+      <span class="section-sub">book the buggers · click to edit</span>
     </div>
     <div class="tiers" id="tiers"></div>
   </section>
 
-  <!-- CITIES -->
   <main id="cities">
     <div class="loading">setting up the trip…</div>
   </main>
 
-  <!-- TRAVEL TO BOOK -->
   <section>
     <div class="section-head">
       <h2>travel still to sort</h2>
@@ -463,7 +586,6 @@
     <div class="travel-list" id="travel-list"></div>
   </section>
 
-  <!-- LOGISTICS -->
   <section>
     <div class="section-head">
       <h2>flights &amp; money</h2>
@@ -474,22 +596,21 @@
         <h4>Flights booked</h4>
         <div class="flight-row">
           <div class="flight-route">SYD → FCO <span style="color: var(--ink-faded); font-size: 13px;">(via IST)</span></div>
-          <div class="flight-meta">11 Jun · 21:05 → 14 Jun 14:05 · TK175/TK1865</div>
+          <div class="flight-meta">Thu 11 Jun · 21:05 → Sun 14 Jun 14:05 · TK175/TK1865</div>
         </div>
         <div class="flight-row">
           <div class="flight-route">CDG → TGD <span style="color: var(--ink-faded); font-size: 13px;">(Podgorica)</span></div>
-          <div class="flight-meta">29 Jun · 07:55 → 10:20 · TO4420</div>
+          <div class="flight-meta">Mon 29 Jun · 07:55 → 10:20 · TO4420</div>
         </div>
         <div class="flight-row">
           <div class="flight-route">TGD → FCO</div>
-          <div class="flight-meta">4 Jul · 11:15 → 12:45 · W67651</div>
+          <div class="flight-meta">Sat 4 Jul · 11:15 → 12:45 · W67651</div>
         </div>
         <div class="flight-row">
           <div class="flight-route">FCO → SYD <span style="color: var(--ink-faded); font-size: 13px;">(via IST)</span></div>
-          <div class="flight-meta">6 Jul · 10:45 → 19:10 · TK1862/TK174</div>
+          <div class="flight-meta">Mon 6 Jul · 10:45 → 19:10 · TK1862/TK174</div>
         </div>
       </div>
-
       <div class="log-card" style="border-color: var(--terracotta);">
         <h4>Money tally</h4>
         <div class="log-row paid"><span class="lbl">Flights</span><span class="val">$2,776.56</span></div>
@@ -505,7 +626,6 @@
     </div>
   </section>
 
-  <!-- LAY OF THE LAND -->
   <section>
     <div class="section-head">
       <h2>lay of the land</h2>
@@ -558,6 +678,8 @@
 
 </div>
 
+<div class="save-indicator" id="save-indicator">saved</div>
+
 <script>
 // =========================================================================
 // DATA
@@ -565,18 +687,29 @@
 const TRIP = [
   {
     id: 'rome1', num: 'I', name: 'Rome', sub: 'the opener',
-    dates: '12 — 14 Jun', base: 'Trastevere', accom: 'Via In Piscinula 37',
+    dates: '12 — 14 Jun',
+    days: [
+      { dow: 'Thu', date: '11 Jun', note: 'Fly out 21:05 from SYD' },
+      { dow: 'Fri', date: '12 Jun', note: 'Arrive FCO 14:05 — straight to Trastevere' },
+      { dow: 'Sat', date: '13 Jun' },
+      { dow: 'Sun', date: '14 Jun', note: '<strong>Vatican Museums closed Sundays</strong> — book Vatican for Fri or Sat. Many shops also closed.' }
+    ],
+    base: 'Trastevere', accom: 'Via In Piscinula 37',
     mapsQuery: 'Via In Piscinula 37, Trastevere, Rome',
     gettingThere: 'From Roma Fiumicino (FCO): Leonardo Express train to Termini (32 min, €14), then taxi (~€15) or Bus H to Trastevere. Direct airport taxi is a flat €55 to the centre.',
+    forHer: 'Italian food is mostly vego-friendly. She can do: <em>cacio e pepe</em>, pizza margherita, <em>supplì</em>, <em>fiori di zucca fritti</em> (fried zucchini flowers — star dish), <em>carciofi alla romana</em>, gnocchi al pomodoro, pasta al limone. Avoid: carbonara + amatriciana (both have guanciale). Da Enzo has plenty for her. Otaleg gelato has vegan flavours. Full-vegan if she wants a break: <em>Romeow Cat Bistrot</em>, <em>So What!</em>',
     dayPlans: [
       { title: 'The Ancient Day', shape: 'Colosseum at opening (8:30am), Forum + Palatine after. Lunch in Monti. Slow gelato wander. Dinner in Trastevere.' },
-      { title: 'The Vatican Day', shape: 'Vatican Museums early slot, lunch in Prati. Borghese in the afternoon if booked. Evening walk to Trevi + Pantheon.' },
-      { title: 'The Slow Day', shape: 'Trastevere morning, Villa Farnesina. Cooking class afternoon. Spanish Steps at sunset, late dinner.' }
+      { title: 'The Vatican Day', shape: 'Vatican Museums early slot (NOT Sunday). Lunch in Prati. Borghese in afternoon if booked. Evening walk to Trevi + Pantheon.' },
+      { title: 'The Slow Day', shape: 'Trastevere morning, Villa Farnesina. Cooking class afternoon. Spanish Steps at sunset, late dinner.' },
+      { title: 'The Late-Night Walk', shape: 'Sleep in. Late lunch. 9pm onwards: Trevi + Pantheon + Piazza Navona uncrowded under the lights. Late dinner at 10pm. Midnight gelato.' },
+      { title: 'The Aperitivo Crawl', shape: 'Late start. Hit 3 spots: Necci dal 1924 in Pigneto, Bar San Calisto in Trastevere, Ai Tre Scalini in Monti. Dinner blurs into snacks.' },
+      { title: 'The Wandering Day', shape: 'Pick a neighbourhood you don\'t know (Pigneto, Testaccio, Garbatella). No monuments. Follow your nose. Eat where the locals eat.' }
     ],
     do: [
       'Wander Trastevere, find Villa Farnesina', 'Tiber Island stroll',
       'Mercato del Pigneto (Friday market)', 'Colosseum tour + Roman Forum',
-      'Cooking class', 'Spanish Steps at sunset', 'Vatican Museums (early slot)',
+      'Cooking class', 'Spanish Steps at sunset', 'Vatican Museums (early slot, NOT Sun)',
       'Galleria Borghese (book essential)', 'Trevi Fountain + Pantheon after dinner'
     ],
     eat: [
@@ -591,12 +724,21 @@ const TRIP = [
   },
   {
     id: 'taormina', num: 'II', name: 'Taormina', sub: 'sicily · cliffside',
-    dates: '15 — 16 Jun', base: 'Corso Umberto', accom: '187A Corso Umberto',
+    dates: '15 — 16 Jun',
+    days: [
+      { dow: 'Mon', date: '15 Jun', note: 'Travel day. Many Italian restaurants close Monday — check Tischi Toschi + Nero D\'Avola before walking up.' },
+      { dow: 'Tue', date: '16 Jun' }
+    ],
+    base: 'Corso Umberto', accom: '187A Corso Umberto',
     mapsQuery: '187A Corso Umberto, Taormina, Sicily',
     gettingThere: 'Fly Rome (FCO) → Catania (CTA), ~1h. From CTA: Etna Trasporti bus to Taormina (~€8, 1.5h, drops near old town) or pre-book a transfer (~€80, 45 min).',
+    forHer: 'Sicily is heaven for her. <em>Pasta alla Norma</em> (eggplant, tomato, ricotta salata) is the local must — vego by nature. Also: <em>caponata</em> (sweet/sour eggplant), <em>arancini al burro</em> or <em>alla spinaci</em> (NOT al ragù), granita + brioche for breakfast, cassatelle, cannoli. Pizzerias all have plenty. Osteria Nero D\'Avola and Tischi Toschi both do good vego dishes.',
     dayPlans: [
       { title: 'The Sea Day', shape: 'Isola Bella morning swim. Lunch back in town. Villa Comunale wander. Greek theatre at sunset, dinner after.' },
-      { title: 'The Etna Day', shape: 'Slow morning with granita. Drive up to Etna late afternoon with Etna3340 guide. Sunset on the volcano, late dinner.' }
+      { title: 'The Etna Day', shape: 'Slow morning with granita. Drive up to Etna late afternoon with Etna3340 guide. Sunset on the volcano, late dinner.' },
+      { title: 'The Beach Club Day', shape: 'Pick a lido at the bay (Lido Bambole, Lido La Spisa). All-day swim/lunch/wine. Evening back in town for dinner.' },
+      { title: 'The Wine Wander', shape: 'Drive to an Etna winery (Planeta, Murgo, Tornatore). Tasting + lunch on the slopes. Sunset back in Taormina.' },
+      { title: 'The Late Start', shape: 'Granita and brioche for breakfast at 11. Lazy town walk. Gelato. Long dinner. The Italian way.' }
     ],
     do: [
       'Villa Comunale gardens', 'Greek theatre at sunset, dinner after',
@@ -616,12 +758,21 @@ const TRIP = [
   },
   {
     id: 'ortigia', num: 'III', name: 'Ortigia', sub: 'syracuse · sea-baked',
-    dates: '17 — 18 Jun', base: 'Giudecca', accom: '28 Vicolo IV Alla Giudecca',
+    dates: '17 — 18 Jun',
+    days: [
+      { dow: 'Wed', date: '17 Jun', note: 'Travel day — train from Taormina, 2.5h.' },
+      { dow: 'Thu', date: '18 Jun', note: 'Mercato di Ortigia in full swing on Thursdays.' }
+    ],
+    base: 'Giudecca', accom: '28 Vicolo IV Alla Giudecca',
     mapsQuery: '28 Vicolo IV Alla Giudecca, Ortigia, Syracuse',
     gettingThere: 'Train from Taormina-Giardini station to Siracusa Centrale (~2.5h, €12—18). Then a 20-min walk into Ortigia old town, or short taxi over the bridge.',
+    forHer: 'The trick: <em>Caseificio Borderi</em> will build her a custom vego sandwich — say "<em>senza salame, senza prosciutto</em>" and they pile on cheeses, tomato, olives, capers, eggplant. Mind-blowing. <em>Granita di mandorla</em> at Caffè Sicilia. MOON in Ortigia is fully vegan. Pasta alla Norma everywhere. Markets full of veg/cheese/oil stuff.',
     dayPlans: [
       { title: 'The Ortigia Day', shape: 'Mercato at 9am (Borderi sandwich — non-negotiable). Piazza Duomo wander. Rocky swim off the seawall. Sunset wine bar.' },
-      { title: 'The Noto Day', shape: 'Bus or train to Noto for the baroque town and a long lunch. Back for sunset in Ortigia, late dinner.' }
+      { title: 'The Noto Day', shape: 'Bus or train to Noto for the baroque town and a long lunch. Back for sunset in Ortigia, late dinner.' },
+      { title: 'The Market Crawl', shape: 'Borderi at 9am. Lunch at Fratelli Burgio. Swim. Evening passeggiata. Dinner at Solaria.' },
+      { title: 'The Noto + Vendicari Day', shape: 'Noto morning. Drive to Vendicari nature reserve for an empty beach + swim. Back for sunset in Ortigia.' },
+      { title: 'The Slow Sea Day', shape: 'Rocky swim morning, granita, nap, evening wine bar. That\'s the whole day. That\'s the point.' }
     ],
     do: [
       'Mercato di Ortigia', 'Piazza Duomo wander',
@@ -638,14 +789,25 @@ const TRIP = [
   },
   {
     id: 'barcelona', num: 'IV', name: 'Barcelona', sub: 'eixample · the long stay',
-    dates: '19 — 22 Jun', base: 'Eixample', accom: 'Bruc 117, Principal',
+    dates: '19 — 22 Jun',
+    days: [
+      { dow: 'Fri', date: '19 Jun', note: 'Travel day — bus + flight from Catania. Likely arrive evening.' },
+      { dow: 'Sat', date: '20 Jun', note: 'El Gran Flea Market typically Saturdays — great vintage day.' },
+      { dow: 'Sun', date: '21 Jun', note: '<strong>Markets closed</strong> (La Boqueria, Concepció). Most shops too. Open: Park Güell, beach, White Rabbit Museum, Sagrada Familia.' },
+      { dow: 'Mon', date: '22 Jun', note: 'Travel day — Spain often quiet Monday lunch.' }
+    ],
+    base: 'Eixample', accom: 'Bruc 117, Principal',
     mapsQuery: 'Bruc 117, Eixample, Barcelona',
     gettingThere: 'From BCN airport: Aerobus to Plaça Catalunya (35 min, €7), then 10-min walk or one metro stop to Eixample. Or RENFE train to Passeig de Gràcia (40 min, €5).',
+    forHer: 'One of Europe\'s most vego-friendly cities. Already on the list: <em>Botanic</em> (vegan brunch), <em>Gallo Santo</em> (vegan Mexican), <em>Honest Greens</em>, <em>Grasa</em> (vegan wine bar). For tapas she\'s golden: <em>pa amb tomàquet</em>, <em>tortilla de patatas</em>, <em>croquetas de espinaca</em>, <em>pimientos de padrón</em>, <em>escalivada</em>, <em>patatas bravas</em>. Carrer de Blai pintxos: heaps of vego options, just pick the meat-free ones. Avoid: jamón, chorizo, fuet.',
     dayPlans: [
       { title: 'The Gaudí Day', shape: 'Sagrada Familia morning slot. Lunch nearby. Park Güell late afternoon when the light softens. Dinner in Gràcia.' },
       { title: 'The Beach + Born Day', shape: 'Bogatell or Mar Bella morning swim. Lunch by the water. El Born wander, Santa Caterina market. Pintxos dinner.' },
       { title: 'The Vintage Day', shape: 'Holala! and Le Swing morning. Long lunch. Neare, Arepa, Lullaby in the afternoon. Dubblefilm photobooth. Late dinner.' },
-      { title: 'The Slow Sunday', shape: 'Concepció market morning. Botanic brunch. White Rabbit Museum. El Gran Flea Market. Pintxos crawl on Carrer de Blai.' }
+      { title: 'The Slow Sunday', shape: 'Concepció market morning (closed Sun, so make it Sat). Botanic brunch. White Rabbit Museum. Pintxos crawl on Carrer de Blai.' },
+      { title: 'The Architecture Day', shape: 'Casa Vicens, La Pedrera, Hospital de Sant Pau (often skipped, gorgeous). Lunch in Eixample. Rooftop drinks at evening.' },
+      { title: 'The Bunkers Day', shape: 'Mid-afternoon flamenco at Palau Dalmases. Sunset at El Carmel bunkers (the city\'s best panoramic view). Late dinner.' },
+      { title: 'The Sitges Day Trip', shape: 'Train to Sitges (40 min) for beach + tapas. Back for dinner in El Born.' }
     ],
     do: [
       'Sagrada Familia', 'Park Güell',
@@ -653,7 +815,8 @@ const TRIP = [
       'Bogatell or Mar Bella beach', 'Dubblefilm photobooth',
       'White Rabbit Museum', 'Fundació Joan Miró',
       'Vintage: Holala! Plaza, Le Swing, Beep Beep Vintage',
-      'Vintage: Neare, Arepa, Lullaby', 'El Gran Flea Market'
+      'Vintage: Neare, Arepa, Lullaby', 'El Gran Flea Market',
+      'El Carmel bunkers at sunset', 'Hospital de Sant Pau'
     ],
     eat: [
       'Botanic — vegan brunch', 'Gallo Santo — vegan Mexican',
@@ -667,13 +830,23 @@ const TRIP = [
   },
   {
     id: 'cassis', num: 'V', name: 'Cassis', sub: 'côte d\'azur · slow',
-    dates: '23 — 25 Jun', base: 'Avenue Victor Hugo', accom: '34 Avenue Victor Hugo',
+    dates: '23 — 25 Jun',
+    days: [
+      { dow: 'Tue', date: '23 Jun', note: '<strong>Feux de la Saint-Jean</strong> — Provence\'s old tradition of beach bonfires on St John\'s Eve. Cassis often does one — ask the host. Big vibe night.' },
+      { dow: 'Wed', date: '24 Jun', note: 'Saint-Jean day. Calmer day after the party.' },
+      { dow: 'Thu', date: '25 Jun', note: 'Travel day to Paris.' }
+    ],
+    base: 'Avenue Victor Hugo', accom: '34 Avenue Victor Hugo',
     mapsQuery: '34 Avenue Victor Hugo, Cassis, France',
     gettingThere: 'Train from Barcelona Sants to Marseille Saint-Charles (~5h via TGV/AVE), then TER train Marseille → Cassis (25 min, €7). Total around 6h. Or fly BCN → MRS and shuttle (~25 min) to St-Charles then TER.',
+    forHer: 'Provence ports = lots of seafood, can be tricky. She can do: <em>salade niçoise</em> (order "<em>sans thon, sans anchois</em>" — without tuna/anchovy), <em>ratatouille</em>, <em>soupe au pistou</em>, <em>socca</em> (chickpea pancake from Nice), pizza (Provence does it well). Cheese plates + rosé + bread is the move for long lazy lunches. Watch <em>pissaladière</em> — often has anchovies.',
     dayPlans: [
       { title: 'The Calanques Day', shape: 'Kayak or boat at 8 or 9am — book ahead. Late lunch in port. Swim afternoon. Sunset at Cap Canaille (highest sea cliff in France).' },
       { title: 'The Slow Port Day', shape: 'Beach morning. Lazy port lunch. Wine tasting at a Cassis vineyard. Sunset apéro by the water.' },
-      { title: 'The Hike Day', shape: 'Calanques hike — start early, midsummer access can be restricted in heat. Picnic at the calanque. Dinner back in town.' }
+      { title: 'The Hike Day', shape: 'Calanques hike — start early, midsummer access can be restricted in heat. Picnic at the calanque. Dinner back in town.' },
+      { title: 'The Wine Day', shape: 'Cassis vineyards in the morning (Domaine du Bagnol, Clos Sainte-Magdeleine). Seafood lunch port-side. Beach in afternoon, sunset apéro.' },
+      { title: 'The Marseille Day Trip', shape: 'Train to Marseille (25 min). Le Panier district, MUCEM museum. Bouillabaisse lunch. Back for evening in Cassis.' },
+      { title: 'The Bonfire Night', shape: '(23 Jun only) Lazy day, save energy. Dinner early. Find the Saint-Jean bonfire on the beach. Stay til it dies down.' }
     ],
     do: [
       'Kayak the Calanques (Bleu Évasion, Atelier Bleu)',
@@ -690,33 +863,61 @@ const TRIP = [
   },
   {
     id: 'paris', num: 'VI', name: 'Paris', sub: 'le marais',
-    dates: '26 — 28 Jun', base: 'Le Marais (4th)', accom: '9 rue d\'Ormesson',
+    dates: '26 — 28 Jun',
+    days: [
+      { dow: 'Fri', date: '26 Jun', note: 'Arrive Paris. Pride Week is on — Marais already buzzing.' },
+      { dow: 'Sat', date: '27 Jun', note: '<strong>PARIS PRIDE</strong> — Marche des Fiertés. Parade 1:30pm from Palais-Royal to Place de la Nation. The Marais is the heart of it — you\'re staying in the middle of the party. Either lean in (huge vibe, late night Marais) or get out for the afternoon and come back for dinner. Hotels + restaurants book up.' },
+      { dow: 'Sun', date: '28 Jun', note: 'Marais is one of the few Paris neighbourhoods where shops stay open Sunday — perfect for browsing.' }
+    ],
+    base: 'Le Marais (4th)', accom: '9 rue d\'Ormesson',
     mapsQuery: '9 rue d\'Ormesson, 75004 Paris',
     gettingThere: 'TGV Marseille → Paris Gare de Lyon is ~3h15, often cheaper and more central than flying. Then metro 1 from Gare de Lyon to Saint-Paul (10 min). If flying: ORY → Orlybus → Denfert + metro 4 to Saint-Paul; CDG → RER B to Châtelet + walk.',
+    forHer: 'Marais is the easiest district for vego in Paris. <em>L\'As du Fallafel</em> on Rue des Rosiers is the legendary vego stop — long queue, worth it. Crêperies do <em>galette complète</em> vegetarian (egg, cheese, mushrooms). Most bistros have <em>chèvre chaud</em> salad (warm goat cheese on toast). Vegan-specific: <em>Hank Vegan Burger</em>, <em>Cloud Cakes</em>, <em>Jah Jah by Le Tricycle</em>. Avoid: croque monsieur (ham), steak tartare, confit de canard.',
     dayPlans: [
       { title: 'The Marais Day', shape: 'Place des Vosges, Picasso Museum. Lunch in the Marais. Seine walk to Île Saint-Louis for Berthillon gelato. Apéro.' },
       { title: 'The Eiffel Day', shape: 'Late start. Eiffel at golden hour. Champ de Mars picnic. Sunset sparkles at 10pm — yes, it\'s that late in June.' },
-      { title: 'The Slow Paris Day', shape: 'Canal Saint-Martin morning coffee. Vintage in Marais. Late dinner — Paris does 9pm well.' }
+      { title: 'The Slow Paris Day', shape: 'Canal Saint-Martin morning coffee. Vintage in Marais. Late dinner — Paris does 9pm well.' },
+      { title: 'The Pride Day', shape: '(Sat 27 only) Watch the parade pass through Marais. Day-drinking with strangers. Dinner late after the crowds thin. Or escape to the Louvre area for the afternoon and return for evening.' },
+      { title: 'The Museum Day', shape: 'Pick ONE big museum (Orsay > Louvre for chill). Lunch nearby. Walk along the Seine after. Evening apéro.' },
+      { title: 'The Sunset Sparkles Day', shape: 'Whole day building up to: dinner at 8pm somewhere with a Trocadéro view. Eiffel sparkles at 10pm sharp. Walk back through Marais.' },
+      { title: 'The Vintage Day', shape: 'Marais vintage hop (Free P Star, Kilo Shop). Canal Saint-Martin in afternoon. Dinner in the 10th.' }
     ],
     do: [
-      'Eiffel Tower (obvs)', 'Wander Le Marais', 'Picnic on the Seine'
+      'Eiffel Tower (obvs)', 'Wander Le Marais', 'Picnic on the Seine',
+      'L\'As du Fallafel', 'Place des Vosges', 'Île Saint-Louis + Berthillon'
     ],
-    eat: [],
+    eat: [
+      'L\'As du Fallafel (Marais legend)',
+      'Berthillon gelato (Île Saint-Louis)'
+    ],
     tips: [
-      'Free airport transfer organised via booking.com — schedule for your TGD flight morning'
+      'Free airport transfer organised via booking.com — schedule for your TGD flight morning',
+      'Marais shops open Sundays — rare for Paris'
     ]
   },
   {
     id: 'kotor', num: 'VII', name: 'Kotor', sub: 'montenegro · the bay',
-    dates: '29 Jun — 3 Jul', base: 'Dobrota', accom: 'Street 3, Number 9/39',
+    dates: '29 Jun — 3 Jul',
+    days: [
+      { dow: 'Mon', date: '29 Jun', note: 'Arrive ~10:20am. Easy first day in old town.' },
+      { dow: 'Tue', date: '30 Jun' },
+      { dow: 'Wed', date: '1 Jul' },
+      { dow: 'Thu', date: '2 Jul' },
+      { dow: 'Fri', date: '3 Jul' }
+    ],
+    base: 'Dobrota', accom: 'Street 3, Number 9/39',
     mapsQuery: 'Dobrota, Kotor, Montenegro',
     gettingThere: 'From Podgorica (TGD) airport: pre-book a transfer to Dobrota (~€80, 1.5h scenic drive along the bay) — easiest. Cheaper: bus to Kotor station then local taxi.',
+    forHer: 'Balkan food is meat-heavy but the coast has loads of Italian. Easy vego: pasta + pizza everywhere (Cathedral Pasta Bar is great), <em>gibanica</em> (cheese pie), <em>burek sa sirom</em> (cheese burek), <em>šopska salata</em> (tomato/cucumber/feta-like cheese), <em>kajmak</em> (clotted cream cheese — try with bread), grilled cheese (<em>sjenički sir</em>, <em>kačkavalj</em>), <em>prebranac</em> (baked beans). Forza Bakery good for pastries. BBQ Tanjga is meat-only — skip with her or grab bread + sides.',
     dayPlans: [
       { title: 'The Old Town Day', shape: 'Wander old town. Lunch. Fortress hike late afternoon (skip midday — brutal). Monte1350 bar for sunset.' },
       { title: 'The Boat Day', shape: 'Hire a boat at 9am. Our Lady of the Rocks, Blue Caves. Lunch in Perast (Konoba Akustik). Evening drinks at Moments.' },
       { title: 'The Budva Day', shape: 'Drive to Budva, Citadela. Mogren Beach, Sveti Nikola Island. Dinner back in Kotor.' },
       { title: 'The Coast Day', shape: 'Sveti Stefan viewpoint. Miločer Park. Praskvica Monastery. Lazy lunch, swim. Back for sunset.' },
-      { title: 'The Slow Bay Day', shape: 'Potter around Dobrota. Swim off the coast. Kraken Wine Bar (booked!). Cathedral Pasta Bar after.' }
+      { title: 'The Slow Bay Day', shape: 'Potter around Dobrota. Swim off the coast. Kraken Wine Bar (booked!). Cathedral Pasta Bar after.' },
+      { title: 'The Lovćen Day', shape: 'Drive up to Lovćen national park. Njegoš Mausoleum. Panoramic views over the whole bay. Back down for swim + dinner.' },
+      { title: 'The Hidden Beach Day', shape: 'Drive to Žanjic or Mirišta near Luštica peninsula — remote, quiet beaches. Pack picnic. Back to Kotor late afternoon.' },
+      { title: 'The Ladder Hike', shape: 'Ladder of Kotor — start at 6am to beat the heat. Proper climb, big payoff views. Beach + rest after.' }
     ],
     do: [
       'Old town wander', 'Fortress hike (early, before heat)',
@@ -724,7 +925,9 @@ const TRIP = [
       'Hire a boat — Our Lady of the Rocks + Blue Caves',
       'Check out Perast village', 'Budva citadela',
       'Sveti Nikola Island', 'Mogren Beach (Budva)',
-      'Sveti Stefan viewpoint', 'Miločer Park', 'Praskvica Monastery'
+      'Sveti Stefan viewpoint', 'Miločer Park', 'Praskvica Monastery',
+      'Lovćen national park + Njegoš Mausoleum',
+      'Hidden beaches at Žanjic / Mirišta (Luštica)'
     ],
     eat: [
       'Kraken Wine Bar (book)', 'Cathedral Pasta Bar',
@@ -732,94 +935,236 @@ const TRIP = [
       'Konoba Akustik (Perast)', 'BBQ Tanjga', 'Forza Bakery'
     ],
     tips: [
-      'Hire boat early — best light in the morning on the bay'
+      'Hire boat early — best light in the morning on the bay',
+      'Check if cruise ships are in — old town much busier 8am—6pm those days'
     ]
   },
   {
     id: 'rome2', num: 'VIII', name: 'Rome', sub: 'monti · the wind-down',
-    dates: '4 — 6 Jul', base: 'Monti', accom: '15 Via Venezia',
+    dates: '4 — 6 Jul',
+    days: [
+      { dow: 'Sat', date: '4 Jul', note: 'Arrive ~12:45pm. <strong>Best night for Trattoria Monti</strong> (closed Sun dinner + Mon).' },
+      { dow: 'Sun', date: '5 Jul', note: 'Many shops closed. Galleria Borghese open. Aventine sunrise still works. Trattoria Monti lunch only.' },
+      { dow: 'Mon', date: '6 Jul', note: 'Fly out FCO 10:45 — airport by 8:30am. Travel day.' }
+    ],
+    base: 'Monti', accom: '15 Via Venezia',
     mapsQuery: '15 Via Venezia, Monti, Rome',
     gettingThere: 'From FCO: Leonardo Express to Termini (32 min, €14), then 10-min walk down Via Cavour into Monti. Easiest accom arrival of the whole trip.',
+    forHer: 'Same as Rome 1 — Italian food has her covered. Trattoria Monti is especially good for her: the family loves vegetarians, there are always 4—5 non-meat mains (their tortini = savoury flans are the signature). Repeat any vego favourites from Rome 1.',
     dayPlans: [
       { title: 'The Sunrise Day', shape: 'Aventine Hill at sunrise — Giardino degli Aranci, Knights of Malta keyhole. Late breakfast in Monti. Trattoria Monti for dinner.' },
-      { title: 'The Last Day', shape: 'Revisit your favourites. One last gelato. Slow dinner. Early night for the flight.' }
+      { title: 'The Last Day', shape: 'Revisit your favourites from Rome 1. One last gelato. Slow dinner. Early night for the flight.' },
+      { title: 'The Repeat Day', shape: 'Hit your top 2-3 favourites from Rome 1. Eat at the place you regretted not going to. No new sights — just the good ones again.' },
+      { title: 'The Testaccio Day', shape: 'Aventine Hill in afternoon. Walk into Testaccio for dinner — Flavio al Velavevodetto, Trapizzino, Mercato di Testaccio. Different Rome.' },
+      { title: 'The Caffè Crawl', shape: 'Coffee crawl: Sant\'Eustachio, Tazza d\'Oro, then Pantheon. Lunch. Wander. Dinner near the accom.' }
     ],
     do: [
       'Aventine Hill at sunrise — Giardino degli Aranci',
-      'Knights of Malta keyhole', 'Slow last days, repeat favourites'
+      'Knights of Malta keyhole', 'Slow last days, repeat favourites',
+      'Testaccio neighbourhood walk', 'Coffee crawl: Sant\'Eustachio + Tazza d\'Oro'
     ],
-    eat: [ 'Trattoria Monti' ],
-    tips: []
+    eat: [ 'Trattoria Monti (Sat dinner — Sun lunch only)' ],
+    tips: [ 'Trattoria Monti closed Sun dinner + all Monday' ]
   }
 ];
 
-const BOOKINGS = {
+const DEFAULT_BOOKINGS = {
   urgent: {
     label: 'now / this week',
     items: [
-      { key: 'sicily-accom', what: 'Sicily accom — Taormina + Ortigia', why: 'Not booked. Two stays. Peak season disappearing fast.' },
-      { key: 'paris-accom', what: 'Paris accom — Le Marais', why: 'Not booked yet.' },
-      { key: 'cassis-accom', what: 'Cassis accom', why: 'No payment recorded — confirm or rebook.' },
-      { key: 'rome-accom-1', what: 'Pay Rome accom 1 (Trastevere)', why: '$860 outstanding.' },
-      { key: 'rome-tax', what: 'Pay Rome city tax', why: '$49 outstanding.' },
-      { key: 'borghese', what: 'Galleria Borghese ticket', why: 'Slots vanish 2—3 weeks out.' },
-      { key: 'vatican', what: 'Vatican Museums early slot', why: 'Skip-the-line books out.' }
+      { what: 'Sicily accom — Taormina + Ortigia', why: 'Not booked. Two stays. Peak season disappearing fast.' },
+      { what: 'Paris accom — Le Marais (Pride weekend!)', why: 'Not booked yet — and Marais on Pride weekend is wild.' },
+      { what: 'Cassis accom', why: 'No payment recorded — confirm or rebook.' },
+      { what: 'Pay Rome accom 1 (Trastevere)', why: '$860 outstanding.' },
+      { what: 'Pay Rome city tax', why: '$49 outstanding.' },
+      { what: 'Galleria Borghese ticket', why: 'Slots vanish 2—3 weeks out.' },
+      { what: 'Vatican Museums — book Fri 12 or Sat 13', why: 'Closed Sunday 14 — only 2 options.' }
     ]
   },
   soon: {
     label: 'next 2 weeks',
     items: [
-      { key: 'calanques', what: 'Calanques kayak or boat (Cassis)', why: 'Summer slots fill. Try Bleu Évasion or Atelier Bleu.' },
-      { key: 'etna', what: 'Etna evening guide (Etna3340)', why: 'Sunset slots are the popular ones.' },
-      { key: 'cooking-class', what: 'Rome cooking class', why: 'The good ones go.' },
-      { key: 'rome-tour', what: 'Colosseum + Forum tour', why: 'Walk-up queues are wild in June.' },
-      { key: 'kotor-boat', what: 'Kotor private boat hire', why: 'Easier to lock in early — ask your accom host.' }
+      { what: 'Calanques kayak or boat (Cassis)', why: 'Summer slots fill. Try Bleu Évasion or Atelier Bleu.' },
+      { what: 'Etna evening guide (Etna3340)', why: 'Sunset slots are the popular ones.' },
+      { what: 'Rome cooking class', why: 'The good ones go.' },
+      { what: 'Colosseum + Forum tour', why: 'Walk-up queues are wild in June.' },
+      { what: 'Kotor private boat hire', why: 'Easier to lock in early — ask your accom host.' }
     ]
   },
   later: {
     label: '1—2 weeks before',
     items: [
-      { key: 'da-enzo', what: 'Da Enzo al 29 (Rome)', why: 'Limited bookings — try, otherwise queue 7pm sharp.' },
-      { key: 'nero-davola', what: 'Osteria Nero D\'Avola (Taormina)', why: 'Book.' },
-      { key: 'tischi-toschi', what: 'Tischi Toschi (Taormina)', why: 'Tiny place. Book or no chance.' },
-      { key: 'kraken', what: 'Kraken Wine Bar (Kotor)', why: 'Popular spot. Book.' },
-      { key: 'trattoria-monti', what: 'Trattoria Monti (Rome 2)', why: 'Closed Sundays — plan around it. Book.' }
+      { what: 'Da Enzo al 29 (Rome)', why: 'Limited bookings — try, otherwise queue 7pm sharp.' },
+      { what: 'Osteria Nero D\'Avola (Taormina)', why: 'Book.' },
+      { what: 'Tischi Toschi (Taormina)', why: 'Tiny place. Book or no chance.' },
+      { what: 'Kraken Wine Bar (Kotor)', why: 'Popular spot. Book.' },
+      { what: 'Trattoria Monti (Rome 2)', why: 'Best Sat 4 Jul dinner — Sun dinner + Mon closed. Book.' }
     ]
   }
 };
 
 const TRAVEL = [
-  { key: 'rome-taormina', date: '15 Jun', route: 'Rome → Taormina', mode: 'Flight FCO→CTA + bus/transfer', time: '~3.5h door to door', cost: '$80—150', notes: 'Bus from CTA airport ~€8, 1.5h. Etna Trasporti.' },
-  { key: 'taormina-ortigia', date: '17 Jun', route: 'Taormina → Ortigia', mode: 'Train', time: '~2.5h', cost: '€12—18', notes: 'From Taormina-Giardini station to Siracusa Centrale.' },
-  { key: 'catania-barcelona', date: '19 Jun', route: 'Catania → Barcelona', mode: 'Bus to CTA + flight', time: '~6h', cost: 'varies — book soon', notes: 'Bus Ortigia→CTA then flight (may be direct or via Rome).' },
-  { key: 'barcelona-cassis', date: '22 Jun', route: 'Barcelona → Cassis', mode: 'TGV / AVE via Marseille', time: '~6h all up', cost: '~$60 +', notes: 'BCN Sants → Marseille (5h), then 25-min TER to Cassis.' },
-  { key: 'marseille-paris', date: '25 Jun', route: 'Marseille → Paris', mode: 'TGV (better than flying)', time: '~3h15', cost: '~$80', notes: 'TGV from Marseille St-Charles to Gare de Lyon. More central than flying.' }
+  { key: 'rome-taormina', date: 'Mon 15 Jun', route: 'Rome → Taormina', mode: 'Flight FCO→CTA + bus/transfer', time: '~3.5h door to door', cost: '$80—150', notes: 'Bus from CTA airport ~€8, 1.5h. Etna Trasporti.' },
+  { key: 'taormina-ortigia', date: 'Wed 17 Jun', route: 'Taormina → Ortigia', mode: 'Train', time: '~2.5h', cost: '€12—18', notes: 'From Taormina-Giardini station to Siracusa Centrale.' },
+  { key: 'catania-barcelona', date: 'Fri 19 Jun', route: 'Catania → Barcelona', mode: 'Bus to CTA + flight', time: '~6h', cost: 'varies — book soon', notes: 'Bus Ortigia→CTA then flight (may be direct or via Rome).' },
+  { key: 'barcelona-cassis', date: 'Mon 22 Jun', route: 'Barcelona → Cassis', mode: 'TGV / AVE via Marseille', time: '~6h all up', cost: '~$60 +', notes: 'BCN Sants → Marseille (5h), then 25-min TER to Cassis.' },
+  { key: 'marseille-paris', date: 'Thu 25 Jun', route: 'Marseille → Paris', mode: 'TGV (better than flying)', time: '~3h15', cost: '~$80', notes: 'TGV from Marseille St-Charles to Gare de Lyon. More central than flying.' }
 ];
 
 // =========================================================================
-// STATE
+// STATE + STORAGE
 // =========================================================================
-let state = { done: {}, custom: {} };
+const STORAGE_KEY = 'eurosummer:state:v2';
+const API_URL = '/api/state';
+let state = null;
+let saveTimer = null;
+let lastSyncMode = null; // 'synced' | 'local' | null
 
-async function loadState() {
-  try {
-    const r = await window.storage.get('eurosummer:state');
-    if (r && r.value) state = JSON.parse(r.value);
-  } catch (e) { /* not found, fine */ }
+// Generate a stable-ish key for a new item
+function newKey(prefix) {
+  return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,7)}`;
 }
-async function saveState() {
-  try { await window.storage.set('eurosummer:state', JSON.stringify(state)); }
-  catch (e) { console.error('save failed', e); }
+
+// Try server first, fall back to localStorage. Returns { state, source }.
+async function loadState() {
+  // 1. Try the API
+  try {
+    const r = await fetch(API_URL, { method: 'GET', headers: { 'Accept': 'application/json' } });
+    if (r.ok) {
+      const data = await r.json();
+      if (data && data.state) return { state: data.state, source: 'server' };
+      // API works but no state yet — treat as empty
+      return { state: null, source: 'server' };
+    }
+  } catch (e) { /* API unreachable, fall through */ }
+  // 2. Try Claude's in-app storage (only useful when previewing inside Claude)
+  try {
+    if (typeof window !== 'undefined' && window.storage && typeof window.storage.get === 'function') {
+      try {
+        const r = await window.storage.get(STORAGE_KEY);
+        if (r && r.value) return { state: JSON.parse(r.value), source: 'claude' };
+      } catch (e) { /* not found */ }
+    }
+  } catch (e) {}
+  // 3. localStorage
+  try {
+    if (typeof localStorage !== 'undefined') {
+      const v = localStorage.getItem(STORAGE_KEY);
+      if (v) return { state: JSON.parse(v), source: 'local' };
+    }
+  } catch (e) {}
+  return { state: null, source: null };
+}
+
+async function saveStateNow() {
+  const json = JSON.stringify(state);
+  let syncedRemotely = false;
+
+  // 1. POST to API
+  try {
+    const r = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ state })
+    });
+    if (r.ok) syncedRemotely = true;
+  } catch (e) { /* API unreachable */ }
+
+  // 2. Always keep a localStorage copy as offline fallback
+  try {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(STORAGE_KEY, json);
+    }
+  } catch (e) {}
+
+  // 3. Save to Claude's in-app storage too if available
+  try {
+    if (typeof window !== 'undefined' && window.storage && typeof window.storage.set === 'function') {
+      try { await window.storage.set(STORAGE_KEY, json); } catch (e) {}
+    }
+  } catch (e) {}
+
+  lastSyncMode = syncedRemotely ? 'synced' : 'local';
+  showSaveIndicator(syncedRemotely ? 'synced' : 'saved locally');
+}
+
+function saveState() {
+  if (saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveStateNow, 250);
+}
+
+function showSaveIndicator(text) {
+  const el = document.getElementById('save-indicator');
+  if (!el) return;
+  if (text) el.textContent = text;
+  el.classList.add('show');
+  clearTimeout(showSaveIndicator._t);
+  showSaveIndicator._t = setTimeout(() => el.classList.remove('show'), 1400);
+}
+
+// Pull latest state from server. Safe to call any time — re-renders if state changed.
+// Skips the refresh if the user is mid-edit so we don't yank their cursor.
+async function refreshFromServer({ force = false } = {}) {
+  // Don't refresh if user is actively editing a field
+  if (!force && document.activeElement && document.activeElement.matches('[data-edit], .add-input')) {
+    return;
+  }
+  try {
+    const r = await fetch(API_URL, { method: 'GET', headers: { 'Accept': 'application/json' } });
+    if (!r.ok) return;
+    const data = await r.json();
+    if (!data || !data.state) return;
+    const incoming = JSON.stringify(data.state);
+    const current = JSON.stringify(state);
+    if (incoming === current) return;
+    state = data.state;
+    // Ensure missing pieces are seeded if the server state is partial
+    initState(state);
+    renderAll();
+    showSaveIndicator('updated from bae');
+  } catch (e) { /* silently ignore */ }
+}
+
+function initState(loaded) {
+  state = loaded || {};
+  if (!state.done) state.done = {};
+  // Seed bookings
+  if (!state.bookings) {
+    state.bookings = {};
+    Object.keys(DEFAULT_BOOKINGS).forEach(tier => {
+      state.bookings[tier] = {
+        label: DEFAULT_BOOKINGS[tier].label,
+        items: DEFAULT_BOOKINGS[tier].items.map(b => ({ key: newKey('bk'), what: b.what, why: b.why }))
+      };
+    });
+  }
+  // Seed city day plans
+  if (!state.cityDayPlans) {
+    state.cityDayPlans = {};
+    TRIP.forEach(c => {
+      state.cityDayPlans[c.id] = (c.dayPlans || []).map(p => ({ key: newKey('dp'), title: p.title, shape: p.shape }));
+    });
+  }
+  // Seed city lists
+  if (!state.cityLists) {
+    state.cityLists = {};
+    TRIP.forEach(c => {
+      state.cityLists[c.id] = {
+        do: (c.do || []).map(t => ({ key: newKey('li'), text: t })),
+        eat: (c.eat || []).map(t => ({ key: newKey('li'), text: t })),
+        tips: (c.tips || []).map(t => ({ key: newKey('li'), text: t }))
+      };
+    });
+  }
+  // City freeform notes
+  if (!state.cityNotes) state.cityNotes = {};
 }
 
 function escapeHtml(s) {
-  return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 function mapLink(query) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
-}
-function itemKey(cityId, category, idx, isCustom) {
-  return `${cityId}:${category}:${isCustom ? 'c' : 'd'}:${idx}`;
 }
 
 // =========================================================================
@@ -840,27 +1185,33 @@ function renderTiers() {
   const root = document.getElementById('tiers');
   const tiers = ['urgent', 'soon', 'later'];
   root.innerHTML = tiers.map(t => {
-    const tier = BOOKINGS[t];
+    const tier = state.bookings[t];
     return `
       <div class="tier-col ${t}">
         <h3>${t}</h3>
-        <span class="tier-when">${tier.label}</span>
-        ${tier.items.map(b => {
-          const k = `booking:${b.key}`;
-          const done = state.done[k];
-          return `
-            <div class="booking ${done ? 'done' : ''}" data-bkey="${k}">
-              <div class="box"></div>
-              <div class="b-text">
-                <div class="b-what">${escapeHtml(b.what)}</div>
-                <div class="b-why">${escapeHtml(b.why)}</div>
-              </div>
-            </div>
-          `;
-        }).join('')}
+        <span class="tier-when">${escapeHtml(tier.label)}</span>
+        <div class="tier-items" data-tier="${t}">
+          ${tier.items.map(b => renderBooking(t, b)).join('')}
+        </div>
+        <button class="add-btn" data-add-booking="${t}">+ add to ${t}</button>
       </div>
     `;
   }).join('');
+}
+
+function renderBooking(tier, b) {
+  const k = `booking:${b.key}`;
+  const done = state.done[k];
+  return `
+    <div class="booking ${done ? 'done' : ''}" data-bkey="${b.key}" data-btier="${tier}">
+      <div class="box" data-tick="${k}"></div>
+      <div class="b-text">
+        <div class="b-what" contenteditable="true" spellcheck="false" data-edit="booking:${tier}:${b.key}:what" data-placeholder="What to book">${escapeHtml(b.what)}</div>
+        <div class="b-why" contenteditable="true" spellcheck="false" data-edit="booking:${tier}:${b.key}:why" data-placeholder="Why / when">${escapeHtml(b.why)}</div>
+      </div>
+      <button class="del-btn" data-del-booking="${tier}:${b.key}" title="remove">✕</button>
+    </div>
+  `;
 }
 
 function renderTravel() {
@@ -869,8 +1220,8 @@ function renderTravel() {
     const k = `travel:${t.key}`;
     const done = state.done[k];
     return `
-      <div class="travel-row ${done ? 'done' : ''}" data-tkey="${k}">
-        <div class="box"></div>
+      <div class="travel-row ${done ? 'done' : ''}">
+        <div class="box" data-tick="${k}"></div>
         <div class="tr-main">
           <div class="tr-route">${escapeHtml(t.route)}</div>
           <div class="tr-meta">${escapeHtml(t.mode)} · ${escapeHtml(t.time)} · ${escapeHtml(t.cost)} · ${escapeHtml(t.notes)}</div>
@@ -881,52 +1232,68 @@ function renderTravel() {
   }).join('');
 }
 
-function renderList(city, category, items) {
+function renderDateStrip(city) {
+  if (!city.days || !city.days.length) return '';
+  const chips = city.days.map(d => `
+    <span class="dchip ${d.note ? 'notable' : ''}">
+      <span class="dow">${escapeHtml(d.dow)}</span><span class="dom">${escapeHtml(d.date)}</span>
+    </span>
+  `).join('');
+  const notes = city.days.filter(d => d.note).map(d => `
+    <div class="dnote"><strong>${escapeHtml(d.dow)} ${escapeHtml(d.date)}:</strong> ${d.note}</div>
+  `).join('');
+  return `
+    <div class="date-strip">
+      <div class="dates-row">${chips}</div>
+      ${notes ? `<div class="date-notes">${notes}</div>` : ''}
+    </div>
+  `;
+}
+
+function renderDayPlans(cityId) {
+  const plans = state.cityDayPlans[cityId] || [];
+  return `
+    <div class="day-plans">
+      <div class="day-plans-label">day shapes — pick whichever fits the mood (editable)</div>
+      <div class="day-plans-grid" data-dp-city="${cityId}">
+        ${plans.map(d => `
+          <div class="day-card" data-dpkey="${d.key}">
+            <div class="dc-title" contenteditable="true" spellcheck="false" data-edit="dp:${cityId}:${d.key}:title" data-placeholder="Day title">${escapeHtml(d.title)}</div>
+            <div class="dc-shape" contenteditable="true" spellcheck="false" data-edit="dp:${cityId}:${d.key}:shape" data-placeholder="Loose shape of the day…">${escapeHtml(d.shape)}</div>
+            <button class="dc-del" data-del-dp="${cityId}:${d.key}" title="remove">✕</button>
+          </div>
+        `).join('')}
+      </div>
+      <button class="add-btn" data-add-dp="${cityId}">+ add another day shape</button>
+    </div>
+  `;
+}
+
+function renderList(cityId, category) {
   const labels = { do: 'do', eat: 'eat', tips: 'know' };
   const placeholders = {
     do: 'add a place, sight, vibe…',
     eat: 'add a restaurant, bar, treat…',
     tips: 'add a tip or thing to avoid…'
   };
-  const customItems = (state.custom[city.id] && state.custom[city.id][category]) || [];
-  const allItems = [
-    ...items.map((t, i) => ({t, i, custom: false})),
-    ...customItems.map((t, i) => ({t, i, custom: true}))
-  ];
+  const items = state.cityLists[cityId][category] || [];
   return `
     <div class="list-block ${category}">
-      <h3>${labels[category]}<span class="count">${allItems.length}</span></h3>
+      <h3>${labels[category]}<span class="count">${items.length}</span></h3>
       <ul class="list">
-        ${allItems.map(({t, i, custom}) => {
-          const k = itemKey(city.id, category, i, custom);
+        ${items.map(it => {
+          const k = `li:${it.key}`;
           const done = state.done[k];
           return `
-            <li class="item ${done ? 'done' : ''}" data-key="${k}">
-              <div class="box"></div>
-              <div class="text">${escapeHtml(t)}</div>
-              ${custom ? `<button class="del" data-del="${city.id}|${category}|${i}" title="remove">✕</button>` : ''}
+            <li class="item ${done ? 'done' : ''}">
+              <div class="box" data-tick="${k}"></div>
+              <div class="text" contenteditable="true" spellcheck="false" data-edit="li:${cityId}:${category}:${it.key}" data-placeholder="…">${escapeHtml(it.text)}</div>
+              <button class="del-btn" data-del-li="${cityId}:${category}:${it.key}" title="remove">✕</button>
             </li>
           `;
         }).join('')}
       </ul>
-      <input class="add-input" type="text" placeholder="${placeholders[category]}" data-add="${city.id}|${category}">
-    </div>
-  `;
-}
-
-function renderDayPlans(city) {
-  if (!city.dayPlans || !city.dayPlans.length) return '';
-  return `
-    <div class="day-plans">
-      <div class="day-plans-label">day shapes — pick whichever fits the mood</div>
-      <div class="day-plans-grid">
-        ${city.dayPlans.map(d => `
-          <div class="day-card">
-            <div class="dc-title">${escapeHtml(d.title)}</div>
-            <div class="dc-shape">${escapeHtml(d.shape)}</div>
-          </div>
-        `).join('')}
-      </div>
+      <input class="add-input" type="text" placeholder="${placeholders[category]}" data-add-li="${cityId}:${category}">
     </div>
   `;
 }
@@ -945,15 +1312,24 @@ function renderCity(city) {
       <div class="city-meta">
         <strong>BASE</strong>${city.base}  ·  <strong>STAY</strong><a href="${mapLink(city.mapsQuery)}" target="_blank" rel="noopener">${escapeHtml(city.accom)}</a>
       </div>
+      ${renderDateStrip(city)}
       <div class="getting-there">
         <div class="gt-label">getting there</div>
         <div class="gt-body">${escapeHtml(city.gettingThere)}</div>
       </div>
-      ${renderDayPlans(city)}
+      <div class="for-her">
+        <div class="fh-label">for her · vego</div>
+        <div class="fh-body">${city.forHer}</div>
+      </div>
+      ${renderDayPlans(city.id)}
       <div class="lists">
-        ${renderList(city, 'do', city.do)}
-        ${renderList(city, 'eat', city.eat)}
-        ${renderList(city, 'tips', city.tips)}
+        ${renderList(city.id, 'do')}
+        ${renderList(city.id, 'eat')}
+        ${renderList(city.id, 'tips')}
+      </div>
+      <div class="city-notes">
+        <div class="city-notes-label">your notes</div>
+        <div class="city-notes-body" contenteditable="true" spellcheck="true" data-edit="note:${city.id}">${escapeHtml(state.cityNotes[city.id] || '')}</div>
       </div>
     </section>
   `;
@@ -961,102 +1337,235 @@ function renderCity(city) {
 
 function renderCities() {
   const root = document.getElementById('cities');
-  root.innerHTML = TRIP.map(city => renderCity(city)).join('');
-  attachHandlers();
+  root.innerHTML = TRIP.map(renderCity).join('');
+}
+
+function renderAll() {
+  renderTiers();
+  renderTravel();
+  renderCities();
 }
 
 // =========================================================================
-// HANDLERS
+// HANDLERS — event delegation, attach once
 // =========================================================================
-function attachHandlers() {
-  document.querySelectorAll('.item').forEach(el => {
-    el.addEventListener('click', (e) => {
-      if (e.target.matches('.del')) return;
-      const k = el.dataset.key;
+function setupHandlers() {
+  const body = document.body;
+
+  // Tick boxes (bookings, travel, list items)
+  body.addEventListener('click', (e) => {
+    const tickEl = e.target.closest('[data-tick]');
+    if (tickEl) {
+      const k = tickEl.dataset.tick;
       state.done[k] = !state.done[k];
-      el.classList.toggle('done');
+      // Find the row container and toggle "done"
+      const row = tickEl.closest('.booking, .travel-row, .item');
+      if (row) row.classList.toggle('done');
       saveState();
-    });
-  });
-  document.querySelectorAll('[data-del]').forEach(btn => {
-    btn.addEventListener('click', (e) => {
+      return;
+    }
+
+    // Delete booking
+    const delB = e.target.closest('[data-del-booking]');
+    if (delB) {
       e.stopPropagation();
-      const [cityId, category, idxStr] = btn.dataset.del.split('|');
-      const idx = parseInt(idxStr, 10);
-      if (state.custom[cityId] && state.custom[cityId][category]) {
-        state.custom[cityId][category].splice(idx, 1);
-        const prefix = `${cityId}:${category}:c:`;
-        const newDone = {};
-        Object.keys(state.done).forEach(k => {
-          if (!k.startsWith(prefix)) { newDone[k] = state.done[k]; }
-          else {
-            const i = parseInt(k.slice(prefix.length), 10);
-            if (i < idx) newDone[k] = state.done[k];
-            else if (i > idx) newDone[`${prefix}${i-1}`] = state.done[k];
-          }
-        });
-        state.done = newDone;
+      const [tier, key] = delB.dataset.delBooking.split(':');
+      state.bookings[tier].items = state.bookings[tier].items.filter(b => b.key !== key);
+      delete state.done[`booking:${key}`];
+      saveState();
+      renderTiers();
+      return;
+    }
+
+    // Delete day plan
+    const delDp = e.target.closest('[data-del-dp]');
+    if (delDp) {
+      e.stopPropagation();
+      const [cityId, key] = delDp.dataset.delDp.split(':');
+      state.cityDayPlans[cityId] = state.cityDayPlans[cityId].filter(d => d.key !== key);
+      saveState();
+      // Re-render just this city's day plans block
+      const grid = document.querySelector(`[data-dp-city="${cityId}"]`);
+      if (grid) {
+        grid.outerHTML = `<div class="day-plans-grid" data-dp-city="${cityId}">
+          ${state.cityDayPlans[cityId].map(d => `
+            <div class="day-card" data-dpkey="${d.key}">
+              <div class="dc-title" contenteditable="true" spellcheck="false" data-edit="dp:${cityId}:${d.key}:title" data-placeholder="Day title">${escapeHtml(d.title)}</div>
+              <div class="dc-shape" contenteditable="true" spellcheck="false" data-edit="dp:${cityId}:${d.key}:shape" data-placeholder="Loose shape of the day…">${escapeHtml(d.shape)}</div>
+              <button class="dc-del" data-del-dp="${cityId}:${d.key}" title="remove">✕</button>
+            </div>
+          `).join('')}
+        </div>`;
       }
+      return;
+    }
+
+    // Delete list item
+    const delLi = e.target.closest('[data-del-li]');
+    if (delLi) {
+      e.stopPropagation();
+      const [cityId, cat, key] = delLi.dataset.delLi.split(':');
+      state.cityLists[cityId][cat] = state.cityLists[cityId][cat].filter(it => it.key !== key);
+      delete state.done[`li:${key}`];
       saveState();
       renderCities();
-    });
+      return;
+    }
+
+    // Add booking
+    const addBkBtn = e.target.closest('[data-add-booking]');
+    if (addBkBtn) {
+      const tier = addBkBtn.dataset.addBooking;
+      const newItem = { key: newKey('bk'), what: '', why: '' };
+      state.bookings[tier].items.push(newItem);
+      saveState();
+      renderTiers();
+      // Focus the new item
+      setTimeout(() => {
+        const el = document.querySelector(`[data-edit="booking:${tier}:${newItem.key}:what"]`);
+        if (el) el.focus();
+      }, 0);
+      return;
+    }
+
+    // Add day plan
+    const addDpBtn = e.target.closest('[data-add-dp]');
+    if (addDpBtn) {
+      const cityId = addDpBtn.dataset.addDp;
+      const newItem = { key: newKey('dp'), title: '', shape: '' };
+      state.cityDayPlans[cityId].push(newItem);
+      saveState();
+      renderCities();
+      setTimeout(() => {
+        const el = document.querySelector(`[data-edit="dp:${cityId}:${newItem.key}:title"]`);
+        if (el) {
+          el.focus();
+          el.scrollIntoView({behavior: 'smooth', block: 'center'});
+        }
+      }, 0);
+      return;
+    }
   });
-  document.querySelectorAll('[data-add]').forEach(input => {
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && input.value.trim()) {
-        const [cityId, category] = input.dataset.add.split('|');
-        if (!state.custom[cityId]) state.custom[cityId] = {};
-        if (!state.custom[cityId][category]) state.custom[cityId][category] = [];
-        state.custom[cityId][category].push(input.value.trim());
-        input.value = '';
+
+  // Add list item on Enter
+  body.addEventListener('keydown', (e) => {
+    if (e.target.matches('[data-add-li]')) {
+      if (e.key === 'Enter' && e.target.value.trim()) {
+        const [cityId, cat] = e.target.dataset.addLi.split(':');
+        const newItem = { key: newKey('li'), text: e.target.value.trim() };
+        state.cityLists[cityId][cat].push(newItem);
+        e.target.value = '';
         saveState();
         renderCities();
         setTimeout(() => {
-          const next = document.querySelector(`[data-add="${cityId}|${category}"]`);
+          const next = document.querySelector(`[data-add-li="${cityId}:${cat}"]`);
           if (next) next.focus();
         }, 0);
       }
-    });
+      return;
+    }
+
+    // Enter on contenteditable: blur (single line) — but allow shift+enter for newline in notes/shapes
+    if (e.target.matches('[data-edit]')) {
+      const edit = e.target.dataset.edit;
+      const allowMultiline = edit.startsWith('note:') || edit.endsWith(':shape') || edit.endsWith(':why');
+      if (e.key === 'Enter' && !e.shiftKey && !allowMultiline) {
+        e.preventDefault();
+        e.target.blur();
+      }
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        e.target.blur();
+      }
+    }
   });
+
+  // Plain-text paste in contenteditable fields
+  body.addEventListener('paste', (e) => {
+    if (e.target.matches && e.target.matches('[data-edit]')) {
+      e.preventDefault();
+      const text = (e.clipboardData || window.clipboardData).getData('text/plain');
+      document.execCommand('insertText', false, text);
+    }
+  });
+
+  // Save on blur
+  body.addEventListener('blur', (e) => {
+    if (e.target.matches && e.target.matches('[data-edit]')) {
+      const path = e.target.dataset.edit;
+      const value = e.target.innerText.replace(/\s+$/g, ''); // trim trailing whitespace, preserve newlines
+      applyEdit(path, value);
+    }
+  }, true);
 }
 
-function attachTierHandlers() {
-  document.querySelectorAll('[data-bkey]').forEach(el => {
-    el.addEventListener('click', () => {
-      const k = el.dataset.bkey;
-      state.done[k] = !state.done[k];
-      el.classList.toggle('done');
+function applyEdit(path, value) {
+  const parts = path.split(':');
+  if (parts[0] === 'booking') {
+    const [_, tier, itemKey, field] = parts;
+    const item = state.bookings[tier].items.find(i => i.key === itemKey);
+    if (item && item[field] !== value) {
+      item[field] = value;
       saveState();
-    });
-  });
-}
-
-function attachTravelHandlers() {
-  document.querySelectorAll('[data-tkey]').forEach(el => {
-    el.addEventListener('click', () => {
-      const k = el.dataset.tkey;
-      state.done[k] = !state.done[k];
-      el.classList.toggle('done');
+    }
+  } else if (parts[0] === 'dp') {
+    const [_, cityId, itemKey, field] = parts;
+    const item = state.cityDayPlans[cityId].find(i => i.key === itemKey);
+    if (item && item[field] !== value) {
+      item[field] = value;
       saveState();
-    });
-  });
+    }
+  } else if (parts[0] === 'li') {
+    const [_, cityId, cat, itemKey] = parts;
+    const item = state.cityLists[cityId][cat].find(i => i.key === itemKey);
+    if (item && item.text !== value) {
+      item.text = value;
+      saveState();
+    }
+  } else if (parts[0] === 'note') {
+    const cityId = parts[1];
+    if (state.cityNotes[cityId] !== value) {
+      state.cityNotes[cityId] = value;
+      saveState();
+    }
+  }
 }
 
 async function resetAll() {
-  if (!confirm('clear all your ticks and added items? this can\'t be undone.')) return;
-  state = { done: {}, custom: {} };
-  await saveState();
-  renderTiers(); attachTierHandlers();
-  renderTravel(); attachTravelHandlers();
-  renderCities();
+  if (!confirm('Reset everything? This wipes EVERYTHING for both of you on the shared trip. Defaults restored.')) return;
+  state = null;
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+  try { if (window.storage && window.storage.delete) await window.storage.delete(STORAGE_KEY); } catch (e) {}
+  // Clear server too
+  try { await fetch(API_URL, { method: 'DELETE' }); } catch (e) {}
+  initState(null);
+  await saveStateNow();
+  renderAll();
 }
 
+// =========================================================================
+// INIT
+// =========================================================================
 (async function init() {
-  await loadState();
+  const loaded = await loadState();
+  initState(loaded.state);
   renderTimeline();
-  renderTiers(); attachTierHandlers();
-  renderCities();
-  renderTravel(); attachTravelHandlers();
+  renderAll();
+  setupHandlers();
+
+  // If we just seeded fresh state (no existing data anywhere), persist it
+  if (!loaded.state) await saveStateNow();
+
+  // Refresh from server when the tab becomes visible (e.g. you switch back from another app)
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') refreshFromServer();
+  });
+  // Also refresh on window focus
+  window.addEventListener('focus', () => refreshFromServer());
+  // And periodically while the tab is open + idle
+  setInterval(() => {
+    if (document.visibilityState === 'visible') refreshFromServer();
+  }, 20000); // every 20 seconds
 })();
 </script>
 
