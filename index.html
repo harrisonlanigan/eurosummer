@@ -396,6 +396,108 @@
   .add-input::placeholder { color: var(--ink-faded); opacity: 0.7; }
   .add-input:focus { border-bottom-color: var(--terracotta); font-style: normal; }
 
+  /* DAY BY DAY — actual per-date planning */
+  .day-by-day { margin-top: 40px; }
+  .dbd-label {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--ink-faded); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .dbd-label::before { content: '◷'; color: var(--terracotta); font-size: 14px; }
+  .dbd-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+  .day-stack { display: flex; flex-direction: column; gap: 14px; }
+  .day-plan-card {
+    background: var(--paper-2);
+    border-left: 3px solid var(--olive);
+    padding: 14px 18px;
+    position: relative;
+  }
+  .dpc-header {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; flex-wrap: wrap;
+    padding-bottom: 8px; margin-bottom: 8px;
+    border-bottom: 1px dotted var(--rule);
+  }
+  .dpc-id { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .dpc-daynum {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.15em; color: var(--ink-faded);
+    text-transform: uppercase;
+  }
+  .dpc-datetitle {
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 22px; color: var(--ink); line-height: 1;
+    letter-spacing: -0.005em;
+  }
+  .dpc-datetitle .dpc-dow { font-weight: 500; }
+  .dpc-shape-select {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    background: transparent;
+    border: 1px dashed var(--rule);
+    color: var(--ink-faded);
+    padding: 5px 22px 5px 10px;
+    cursor: pointer;
+    appearance: none; -webkit-appearance: none; -moz-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' fill='%238a7860'><path d='M0 0l5 6 5-6z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 8px;
+    border-radius: 2px;
+    max-width: 220px;
+    text-overflow: ellipsis;
+  }
+  .dpc-shape-select:hover, .dpc-shape-select:focus {
+    border-color: var(--terracotta); color: var(--terracotta);
+    border-style: solid; outline: none;
+  }
+  .dpc-shape-hint {
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 13px; color: var(--ink-faded);
+    margin-bottom: 8px; padding-left: 2px; line-height: 1.45;
+  }
+  .dpc-shape-hint:empty { display: none; }
+  .dpc-slots { display: flex; flex-direction: column; }
+  .dpc-slot {
+    display: grid; grid-template-columns: 70px 1fr; gap: 14px;
+    padding: 7px 0;
+    border-bottom: 1px dotted var(--rule);
+    align-items: baseline;
+  }
+  .dpc-slot-label, .dpc-notes-label {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-faded);
+  }
+  .dpc-slot-text {
+    font-size: 14px; color: var(--ink); line-height: 1.5;
+    outline: none; min-height: 18px;
+  }
+  .dpc-slot-text:empty::before, .dpc-notes-text:empty::before {
+    content: attr(data-placeholder);
+    color: var(--ink-faded); opacity: 0.45; font-style: italic;
+  }
+  .dpc-notes-row {
+    display: grid; grid-template-columns: 70px 1fr; gap: 14px;
+    padding: 7px 0 0; margin-top: 4px;
+    border-top: 1px dashed var(--rule);
+    align-items: baseline;
+  }
+  .dpc-notes-text {
+    font-size: 13px; color: var(--ink-soft); line-height: 1.5;
+    outline: none; min-height: 16px;
+    font-family: 'Fraunces', serif; font-style: italic;
+    white-space: pre-wrap;
+  }
+  @media (max-width: 640px) {
+    .dpc-slot, .dpc-notes-row {
+      grid-template-columns: 58px 1fr; gap: 10px;
+    }
+    .dpc-datetitle { font-size: 18px; }
+    .dpc-shape-select { max-width: 100%; }
+  }
+
   /* CITY NOTES */
   .city-notes {
     margin-top: 30px;
@@ -1011,6 +1113,20 @@ const TRAVEL = [
   { key: 'marseille-paris', date: 'Thu 25 Jun', route: 'Marseille → Paris', mode: 'TGV (better than flying)', time: '~3h15', cost: '~$80', notes: 'TGV from Marseille St-Charles to Gare de Lyon. More central than flying.' }
 ];
 
+// Compute trip-wide day numbers + date->city lookup at load
+const DATE_TO_CITY = {};
+(function computeDayMeta() {
+  let n = 0;
+  TRIP.forEach(c => {
+    if (!c.days) return;
+    c.days.forEach(d => {
+      n++;
+      d.dayNum = String(n).padStart(2, '0');
+      DATE_TO_CITY[d.date] = c.id;
+    });
+  });
+})();
+
 // =========================================================================
 // STATE + STORAGE
 // =========================================================================
@@ -1103,10 +1219,13 @@ function showSaveIndicator(text) {
 }
 
 // Pull latest state from server. Safe to call any time — re-renders if state changed.
-// Skips the refresh if the user is mid-edit so we don't yank their cursor.
+// Skips refresh if user is mid-edit OR has a pending unsaved change so we never
+// blow away local edits.
 async function refreshFromServer({ force = false } = {}) {
-  // Don't refresh if user is actively editing a field
-  if (!force && document.activeElement && document.activeElement.matches('[data-edit], .add-input')) {
+  // Don't refresh if there's a pending save (local state is ahead of server)
+  if (!force && saveTimer) return;
+  // Don't refresh if user is actively editing or picking from a dropdown
+  if (!force && document.activeElement && document.activeElement.matches('[data-edit], .add-input, select')) {
     return;
   }
   try {
@@ -1158,6 +1277,8 @@ function initState(loaded) {
   }
   // City freeform notes
   if (!state.cityNotes) state.cityNotes = {};
+  // Per-date day plans (morning/arvo/evening/notes + shape pick)
+  if (!state.dailyPlans) state.dailyPlans = {};
 }
 
 function escapeHtml(s) {
@@ -1269,6 +1390,59 @@ function renderDayPlans(cityId) {
   `;
 }
 
+function renderDayPlanCard(cityId, d) {
+  const plan = state.dailyPlans[d.date] || { shapeKey: null, morning: '', arvo: '', evening: '', notes: '' };
+  const shapes = state.cityDayPlans[cityId] || [];
+  const selectedShape = plan.shapeKey ? shapes.find(s => s.key === plan.shapeKey) : null;
+  const hint = selectedShape ? escapeHtml(selectedShape.shape) : '';
+  const dateAttr = escapeHtml(d.date);
+  return `
+    <div class="day-plan-card" data-dpc="${dateAttr}">
+      <header class="dpc-header">
+        <div class="dpc-id">
+          <span class="dpc-daynum">Day ${d.dayNum}</span>
+          <span class="dpc-datetitle"><span class="dpc-dow">${escapeHtml(d.dow)}</span> ${escapeHtml(d.date)}</span>
+        </div>
+        <select class="dpc-shape-select" data-shape-for="${cityId}|${dateAttr}">
+          <option value="">— pick a shape —</option>
+          ${shapes.map(s => `<option value="${escapeHtml(s.key)}" ${plan.shapeKey === s.key ? 'selected' : ''}>${escapeHtml(s.title)}</option>`).join('')}
+        </select>
+      </header>
+      <div class="dpc-shape-hint" data-hint-for="${dateAttr}">${hint}</div>
+      <div class="dpc-slots">
+        <div class="dpc-slot">
+          <div class="dpc-slot-label">morning</div>
+          <div class="dpc-slot-text" contenteditable="true" spellcheck="false" data-edit="daily:${dateAttr}:morning" data-placeholder="…">${escapeHtml(plan.morning)}</div>
+        </div>
+        <div class="dpc-slot">
+          <div class="dpc-slot-label">arvo</div>
+          <div class="dpc-slot-text" contenteditable="true" spellcheck="false" data-edit="daily:${dateAttr}:arvo" data-placeholder="…">${escapeHtml(plan.arvo)}</div>
+        </div>
+        <div class="dpc-slot">
+          <div class="dpc-slot-label">evening</div>
+          <div class="dpc-slot-text" contenteditable="true" spellcheck="false" data-edit="daily:${dateAttr}:evening" data-placeholder="…">${escapeHtml(plan.evening)}</div>
+        </div>
+      </div>
+      <div class="dpc-notes-row">
+        <div class="dpc-notes-label">notes</div>
+        <div class="dpc-notes-text" contenteditable="true" spellcheck="true" data-edit="daily:${dateAttr}:notes" data-placeholder="bookings, times, contacts…">${escapeHtml(plan.notes)}</div>
+      </div>
+    </div>
+  `;
+}
+
+function renderDayByDay(city) {
+  if (!city.days || !city.days.length) return '';
+  return `
+    <div class="day-by-day">
+      <div class="dbd-label">day by day · what's actually happening</div>
+      <div class="day-stack">
+        ${city.days.map(d => renderDayPlanCard(city.id, d)).join('')}
+      </div>
+    </div>
+  `;
+}
+
 function renderList(cityId, category) {
   const labels = { do: 'do', eat: 'eat', tips: 'know' };
   const placeholders = {
@@ -1327,6 +1501,7 @@ function renderCity(city) {
         ${renderList(city.id, 'eat')}
         ${renderList(city.id, 'tips')}
       </div>
+      ${renderDayByDay(city)}
       <div class="city-notes">
         <div class="city-notes-label">your notes</div>
         <div class="city-notes-body" contenteditable="true" spellcheck="true" data-edit="note:${city.id}">${escapeHtml(state.cityNotes[city.id] || '')}</div>
@@ -1497,6 +1672,24 @@ function setupHandlers() {
       applyEdit(path, value);
     }
   }, true);
+
+  // Shape dropdown on day-by-day cards
+  body.addEventListener('change', (e) => {
+    if (!e.target.matches('[data-shape-for]')) return;
+    const [cityId, date] = e.target.dataset.shapeFor.split('|');
+    const shapeKey = e.target.value || null;
+    if (!state.dailyPlans[date]) {
+      state.dailyPlans[date] = { shapeKey: null, morning: '', arvo: '', evening: '', notes: '' };
+    }
+    state.dailyPlans[date].shapeKey = shapeKey;
+    saveState();
+    // Update the hint text below without a full re-render
+    const hintEl = document.querySelector(`[data-hint-for="${CSS.escape(date)}"]`);
+    if (hintEl) {
+      const shape = shapeKey ? (state.cityDayPlans[cityId] || []).find(s => s.key === shapeKey) : null;
+      hintEl.textContent = shape ? shape.shape : '';
+    }
+  });
 }
 
 function applyEdit(path, value) {
@@ -1526,6 +1719,15 @@ function applyEdit(path, value) {
     const cityId = parts[1];
     if (state.cityNotes[cityId] !== value) {
       state.cityNotes[cityId] = value;
+      saveState();
+    }
+  } else if (parts[0] === 'daily') {
+    const [_, date, field] = parts;
+    if (!state.dailyPlans[date]) {
+      state.dailyPlans[date] = { shapeKey: null, morning: '', arvo: '', evening: '', notes: '' };
+    }
+    if (state.dailyPlans[date][field] !== value) {
+      state.dailyPlans[date][field] = value;
       saveState();
     }
   }
